@@ -1,0 +1,38 @@
+class Solution {
+public:
+unordered_map<int,int> hashMap;
+int combinationSum4(vector<int>& nums, int target) {
+    int sum = 0 ; 
+    for (int i = 0 ; i< nums.size(); i++)
+    {
+       int current_num =  nums[i];
+       if(target<current_num )            
+       continue;
+       else
+       {
+           if(target== current_num) 
+           {
+               sum++; 
+               continue;
+           }
+           else
+           {
+               if(hashMap.find(target-current_num) != hashMap.end())
+               {
+               sum+= hashMap[target-current_num];
+               }
+               else
+               {
+                   int result = this->combinationSum4(nums, (target-current_num));
+                   sum+= result; 
+                   hashMap[target-current_num] = result; 
+               }
+           
+           }
+       }
+    }
+    hashMap[target] = sum; 
+    return sum; 
+
+    }
+};
