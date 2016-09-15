@@ -1,0 +1,104 @@
+class Solution {
+public:
+    int romanToInt(string s) {
+        int value = 0 ; 
+        vector<int>number(s.length(), 0);
+        for(int i =0 ; i<s.length() ; i++)
+        {
+          number[i] = util(s[i]);
+        }
+        
+        int current = 0 ; 
+        for(int i =0 ; i<s.length()-1 ; i++)
+        {
+          if(number[i] >= number[i+1])
+          {
+            current += number[i]; 
+            value += current;
+            current = 0 ; 
+          }
+          else
+          {
+              current = (-number[i]);
+          }
+        }
+        {
+          current += number[s.length()-1];
+          value += current;
+        }
+     
+        
+        return value; 
+
+    }
+    int util(char c)
+    {
+        switch(c)
+        {
+            case 'L':
+            return 50;
+            break;
+            
+            case 'M':
+            return 1000;
+            break;
+            
+            case 'D':
+            return 500;
+            break;
+            
+            
+            case 'C':
+            return 100;
+            break;
+            
+            case 'V':
+            return 5;
+            break;
+            
+            case 'X':
+            return 10;
+            break;
+            
+            case 'I':
+            return 1;
+            break;
+            
+            case 'l':
+            return 50;
+            break;
+            
+            case 'm':
+            return 1000;
+            break;
+            
+            case 'd':
+            return 500;
+            break;
+            
+            
+            case 'c':
+            return 100;
+            break;
+            
+            case 'v':
+            return 5;
+            break;
+            
+            case 'x':
+            return 10;
+            break;
+            
+            case 'i':
+            return 1;
+            break;
+            
+            default:
+            return 0; 
+            
+            
+        }
+        
+        return 0; 
+    }
+};
