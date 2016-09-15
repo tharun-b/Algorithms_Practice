@@ -1,0 +1,13 @@
+class Solution {
+public:
+    bool isPowerOfThree(int n) {
+        if(n <=0) return false;
+        
+        int lo = (((float)log(n))/log(3) +0.5); 
+        if(pow(3,lo) == n)
+        return true;
+        else
+        return false;
+        
+    }
+};
