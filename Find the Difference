@@ -1,0 +1,16 @@
+class Solution {
+public:
+    char findTheDifference(string s, string t) {
+        int xorsum = 0 ; 
+        for(auto c:s)
+        {
+            xorsum = xorsum^((int)(c-'a'));
+        }
+        for(auto c:t)
+        {
+            xorsum = xorsum^((int)(c-'a'));
+        }
+        
+        return (char)((int)'a' + xorsum);
+    }
+};
