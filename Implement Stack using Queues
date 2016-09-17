@@ -1,0 +1,50 @@
+class Stack {
+public:
+queue<int> que1;
+queue<int> que2;
+queue<int> *first_que = &que1; 
+queue<int> *second_que = &que2; 
+
+    // Push element x onto stack.
+    void push(int x) {
+        second_que->push(x);
+    }
+
+    // Removes the element on top of the stack.
+    void pop() {
+        this->top();
+        second_que->pop(); 
+    }
+
+    // Get the top element.
+    int top() {
+        
+        if(this->empty())
+        {
+            cout<<"Error"<<endl; 
+            return 0; 
+        }
+
+        if(second_que->size()==0) 
+        {
+            auto temp = second_que;
+            second_que = first_que; 
+            first_que = temp; 
+        }
+        
+        while(second_que->size()>1)
+        {
+            int x = second_que->front();
+            second_que->pop(); 
+            first_que->push(x);
+        }
+        
+        return second_que->front();
+
+    }
+
+    // Return whether the stack is empty.
+    bool empty() {
+        return (second_que->empty() && first_que->empty());
+    }
+};
