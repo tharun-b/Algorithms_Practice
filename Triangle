@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int minimumTotal(vector<vector<int>>& triangle) {
+        if(triangle.size() <1 ) return 0; 
+        vector<int>score(triangle.size(),INT_MAX);
+        score[0] = triangle[0][0];
+        
+        int min2 = score[0];
+        for(int j =1 ; j<triangle.size(); j++)
+        {
+            int prevt = INT_MAX;
+            min2 = INT_MAX;
+            for(int i=0; i< triangle[j].size(); i++)
+            {
+                int temp = score[i]; 
+                score[i] = triangle[j][i] + min(score[i],prevt);
+                min2 = min(score[i],min2);
+                prevt = temp;
+            }
+        }
+return min2; 
+    }
+};
