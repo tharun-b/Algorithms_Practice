@@ -1,0 +1,40 @@
+class Queue {
+    vector<int> first;
+    vector<int> second; 
+    
+public:
+    // Push element x to the back of queue.
+    void push(int x) {
+        first.push_back(x);
+    }
+
+    // Removes the element from in front of queue.
+    void pop(void) {
+        this->peek();
+
+        if(!second.empty())
+        second.pop_back(); 
+    }
+
+    // Get the front element.
+    int peek(void) {
+        if(second.empty())
+        {
+            while(!first.empty())
+            {
+                int a = first.back();
+                first.pop_back();
+                second.push_back(a);
+            }
+        }
+        
+        return second.back();
+        
+        
+    }
+
+    // Return whether the queue is empty.
+    bool empty(void) {
+        return(first.empty() && second.empty());
+    }
+};
