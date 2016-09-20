@@ -1,0 +1,44 @@
+class Solution {
+public:
+    vector<string> readBinaryWatch(int num) {
+        int hours= 0; 
+        int minutes =0; 
+        vector<string> retstring; 
+        for(int hours =0 ; hours < 12; hours++)
+        {
+            int numhours = number_of_bits(hours);
+            if(numhours > num) continue;
+            for(int minu =0 ; minu < 60;minu++)
+            {
+                int nummin = number_of_bits(minu);
+                if(nummin != (num-numhours)) continue; 
+                
+                string ret = to_string(hours);
+                ret+= ":";
+               
+                stringstream stream;
+                stream << setw(2) <<setfill('0')<< minu;
+
+
+                ret+= stream.str();
+                retstring.push_back(ret);
+                
+                
+            }
+
+        }
+                               return retstring; 
+
+    }
+    int number_of_bits(int num)
+        {
+                    int count =0;
+
+            while(num>0)
+            {
+                num = num & (num-1);
+                count++;
+            }
+            return count; 
+        }
+};
