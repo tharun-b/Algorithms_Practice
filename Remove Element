@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int removeElement(vector<int>& nums, int val) {
+        int n = nums.size();
+        int newlength = n; 
+        int right = n-1; 
+        for(int left = 0; left <= right;)
+        {
+            if(nums[left] ==val)
+            {
+
+                newlength--; 
+                while((nums[right] == val))
+                {
+                if(left >= right) return newlength;   
+                newlength--; 
+                right--;
+                }
+                swap(nums,left,right);
+                right--; 
+            }
+            left++; 
+        }
+        return newlength;
+    }
+    void swap(vector<int>& nums, int left , int right)
+    {
+        int temp = nums[left];
+        nums[left] = nums[right];
+        nums[right] = temp; 
+    }
+};
