@@ -1,0 +1,18 @@
+class Solution {
+public:
+    bool isPalindrome(int x) {
+        if(x<0) return false;
+        if(x<10) return true; 
+        int n = log10(x); 
+        while(n>0)
+        { 
+            int powr = pow(10,n);
+           // cout<< x<<" "<< powr << " " << x%10 <<endl; 
+            if( x/powr != x%10) return false;
+            x%= powr;
+            x/= 10; 
+            n -= 2; 
+        }
+        return true; 
+    }
+};
