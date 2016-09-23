@@ -1,0 +1,61 @@
+class Solution {
+public:
+    bool isValidSudoku(vector<vector<char>>& board) {
+        unordered_map<char, int> vec; 
+        for(int j =0 ; j<9; j++ )
+        {
+        for(int i =0 ; i<9; i++ )
+        {
+            char c = board[j][i];
+            if(c == '.') continue; 
+            auto v =  vec.find(c); 
+            if(v != vec.end()) return false;   
+            vec[c]++;
+        }
+        vec.clear();
+        }
+
+        cout<<"rows clear"<<endl;
+        for(int i =0 ; i<9; i++ )
+        {
+        for(int j =0 ; j<9; j++ )
+        {
+            char c = board[j][i];
+            if(c == '.') continue; 
+
+            auto v =  vec.find(c); 
+            if(v != vec.end()) return false;   
+            vec[c]++;
+        }
+        vec.clear();
+        }
+                cout<<"colums clear"<<endl;
+
+        
+        for(int m =0 ; m<3; m++ )
+        {
+            for(int n =0 ; n<3; n++ )
+            {
+                for(int i =0 ; i<3; i++ )
+                {
+                    for(int j =0 ; j<3; j++ )
+                    {
+                       char c = board[j+n*3][i+m*3];
+                       if(c == '.') continue; 
+                        cout<<m<<"  "<<n<<endl;
+
+                       auto v =  vec.find(c); 
+                       if(v != vec.end()) return false; 
+                        vec[c]++;
+
+
+                    }
+                }
+                        vec.clear();
+            }
+        }
+        
+        return true; 
+        
+    }
+};
