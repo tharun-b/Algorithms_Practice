@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int longestPalindrome(string s) {
+        if(s.length() > 1010) return -1; 
+        
+        vector<int> arr(256,0);
+        for(auto &i:s)
+        {
+            int index = i; 
+            arr[index]++; 
+        }
+        int ct =0 ; 
+        bool flag = 0; 
+        for(int i = 0; i<256; i++)
+        {
+            ct += (arr[i]>>1);
+            if(arr[i]&1) flag =1; 
+            cout<<i<<' '<<arr[i]<<' '<<ct<<endl; 
+        }
+        return ((ct<<1)+flag);
+        
+    }
+};
