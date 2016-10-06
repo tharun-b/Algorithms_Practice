@@ -1,0 +1,17 @@
+ int firstBadVersion(int n) {
+       int l =0; 
+       int r= n; 
+       while((r-l) >1)
+       {
+           int med = (l+((r-l)/2)); 
+           if(isBadVersion(med))
+           {
+               r = med;
+           }
+           else
+           {
+               l = med; 
+           }
+       }
+       return r; 
+    }
