@@ -1,0 +1,72 @@
+#include <map>
+#include <set>
+#include <list>
+#include <cmath>
+#include <ctime>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <string>
+#include <bitset>
+#include <cstdio>
+#include <limits>
+#include <vector>
+#include <climits>
+#include <cstring>
+#include <cstdlib>
+#include <fstream>
+#include <numeric>
+#include <sstream>
+#include <iostream>
+#include <algorithm>
+#include <unordered_map>
+
+using namespace std;
+bool is_balanced(string expression) {
+  if((expression.size() % 2) != 0) return false; 
+    vector<int> stack; 
+     unordered_map<char, int> hashMap ; 
+        hashMap['['] = 1; 
+        hashMap['{'] = 2; 
+        hashMap['('] = 3; 
+        hashMap[']'] = 4; 
+        hashMap['}'] = 5; 
+        hashMap[')'] = 6; 
+    
+    for(auto c: expression)
+    {
+        int newVal = hashMap[c] ;
+      //  cout<<newVal<<endl;
+            if(newVal>3) 
+               {
+                   if(stack.size())
+                   {
+                       if(stack.back() == (newVal-3)) 
+                       {stack.pop_back(); continue;}
+                       else 
+                           return false; 
+                   }
+                   else
+                      return false;
+               }
+           else
+             stack.push_back(newVal);
+                
+     }
+        if(!stack.empty()) return false; 
+        else return true;
+}
+
+int main(){
+    int t;
+    cin >> t;
+    for(int a0 = 0; a0 < t; a0++){
+        string expression;
+        cin >> expression;
+        bool answer = is_balanced(expression);
+        if(answer)
+            cout << "YES\n";
+        else cout << "NO\n";
+    }
+    return 0;
+}
