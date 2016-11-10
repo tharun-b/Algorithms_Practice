@@ -1,0 +1,72 @@
+#include <map>
+#include <set>
+#include <list>
+#include <cmath>
+#include <ctime>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <string>
+#include <bitset>
+#include <cstdio>
+#include <limits>
+#include <vector>
+#include <climits>
+#include <cstring>
+#include <cstdlib>
+#include <fstream>
+#include <numeric>
+#include <sstream>
+#include <iostream>
+#include <algorithm>
+#include <unordered_map>
+
+using namespace std;
+int DFS(vector< vector<int> > grid,vector< vector<int> > &mark, int i , int j )
+    {
+    if(i<0) return 0; 
+    if(j<0) return 0; 
+    if(i>=grid.size()) return 0 ; 
+    if(j>=grid[0].size()) return 0; 
+    if(mark[i][j] < 0) 
+    {   mark[i][j]  =0; 
+        if(grid[i][j] ==0 ) 
+        {
+            return 0; 
+        } 
+        return (DFS(grid,mark, i-1,j-1) + DFS(grid,mark, i-1,j) + DFS(grid,mark, i-1,j+1) 
+                + DFS(grid,mark, i,j-1) + DFS(grid,mark, i,j+1)
+                + DFS(grid,mark, i+1,j-1) + DFS(grid,mark, i+1,j) + DFS(grid,mark, i+1,j+1)+grid[i][j]);
+    }
+
+    return 0; 
+    
+}
+    
+int get_biggest_region(vector< vector<int> > grid,vector< vector<int> > &mark) {
+int c =0 ; 
+    int max2 =0 ; 
+    for(int grid_i = 0;grid_i < grid.size();grid_i++){
+       for(int grid_j = 0;grid_j < grid[0].size();grid_j++){
+          c = DFS(grid,mark, grid_i, grid_j );
+              max2 = max(c, max2);
+       }
+    }
+    return max2; 
+}
+
+int main(){
+    int n;
+    cin >> n;
+    int m;
+    cin >> m;
+    vector< vector<int> > grid(n,vector<int>(m));
+    vector< vector<int> > mark(n, vector<int>(m,-1)); 
+    for(int grid_i = 0;grid_i < n;grid_i++){
+       for(int grid_j = 0;grid_j < m;grid_j++){
+          cin >> grid[grid_i][grid_j];
+       }
+    }
+    cout << get_biggest_region(grid,mark) << endl;
+    return 0;
+}
