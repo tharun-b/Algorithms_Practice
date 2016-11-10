@@ -1,0 +1,21 @@
+#include <iostream>
+#include <vector> 
+using namespace std;
+int fibonacci(int n, vector<int> &ar) {
+    // Complete the function.
+    if(ar[n] <0)
+        {
+        int t = fibonacci(n-1,ar)+fibonacci(n-2,ar);
+        ar[n] = t; 
+        }
+        return ar[n]; 
+}
+int main() {
+    int n;
+    cin >> n;
+    vector<int> ar(n+1,-1); 
+    ar[0] = 0;
+    ar[1] =1; 
+    cout << fibonacci(n,ar);
+    return 0;
+}
