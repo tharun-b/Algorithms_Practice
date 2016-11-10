@@ -1,0 +1,14 @@
+
+
+int main(){
+    int n;
+    cin >> n;
+    int v = 0 ; 
+    for(int a_i = 0;a_i < n;a_i++){
+      int t; 
+        cin >> t;
+        v = v ^ t; 
+    }
+    cout << v << endl;
+    return 0;
+}
