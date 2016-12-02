@@ -1,0 +1,43 @@
+typedef pair<int,int> Pa;
+class compare
+{
+    public:
+    bool operator()(Pa &a, Pa &b)
+    {
+        return (a.second < b.second);
+    }
+    
+};
+
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        int n = nums.size(); 
+        vector<int> ret; 
+        if(n<1) return ret; 
+        unordered_map<int,int> map; 
+        for(int i=0; i<n; i++)
+        {
+            map[nums[i]]++;
+        }
+        
+        priority_queue<Pa, vector<Pa>, compare> Que; 
+        for(auto t:map)
+        {
+            Que.push({t.first, t.second});
+        }
+        
+        
+        while((!Que.empty() && k >0))
+        {
+            k--; 
+            auto elem  = Que.top(); 
+            ret.push_back(elem.first); 
+            Que.pop(); 
+        }
+        
+        return ret; 
+        
+        
+    }
+};
