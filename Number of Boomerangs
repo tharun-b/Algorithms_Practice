@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int numberOfBoomerangs(vector<pair<int, int>>& points) {
+        unordered_map<int,int> hMap;
+        if(points.size()<3) return 0; 
+        int res =0; 
+        for(int i=0; i< points.size(); i++)
+        {
+            for (int j=0; j< points.size(); j++)
+            {
+                int dist = ((points[i].first-points[j].first)*(points[i].first-points[j].first)) + ((points[i].second-points[j].second)*(points[i].second-points[j].second)) ;
+                
+                   hMap[dist]++; 
+               // cout<<"("<<i<<","<<j<<")"<<dist<<", "<<hMap[dist]<<" "<<endl; 
+            }
+            for(auto t:hMap)
+            {
+                int c = t.second; 
+                if(c>1)
+                {
+                     res+=  c*(c-1);
+                }
+            }
+            hMap.clear(); 
+        }
+        return res; 
+    }
+};
