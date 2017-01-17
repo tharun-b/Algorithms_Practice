@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int minMoves(vector<int>& nums) {
+        if(nums.size()<2) return 0; 
+        int mi= nums[0];
+        int ma = nums[0]; 
+        for(auto a: nums)
+        {
+            mi = min(mi,a);
+        }
+        int count =0 ; 
+         for(auto a: nums)
+        {
+            count += (a-mi);
+        }
+        return count; 
+    }
+};
