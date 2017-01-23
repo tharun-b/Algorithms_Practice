@@ -1,0 +1,30 @@
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& numbers, int target) {
+        vector<int> ret; 
+        if(numbers.size()<2) return ret; 
+        int ind1 = 0; 
+        int ind2 = numbers.size()-1;
+        
+        while(ind1<ind2)
+        {
+            int sum = numbers[ind1] +numbers[ind2]; 
+            if(sum == target)
+            {
+                ret.push_back(ind1+1);
+                ret.push_back(ind2+1);
+                return ret; 
+            }
+            else if(sum < target)
+            {
+                ind1++;
+            }
+            else
+            {
+                ind2--;
+            }
+        }
+        
+        return ret;
+    }
+};
