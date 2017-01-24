@@ -1,0 +1,17 @@
+class Solution {
+public:
+    vector<int> constructRectangle(int area) 
+    {
+        vector <int> ret; 
+        if(area<0) return ret ;
+        int w = sqrt(area);
+
+        while((area%w)!=0)
+        {
+            w--; 
+        }
+        ret.push_back(area/w);
+        ret.push_back(w);
+        return ret; 
+    }
+};
