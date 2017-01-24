@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int countSegments(string s) {
+        int count = 0; 
+        bool val = false; 
+        for(auto a : s)
+        {
+            if(a == ' ')
+            {
+                val = false; 
+            }
+            else 
+            {
+               if(val == false) count++; 
+                val = true; 
+            }
+        }
+        return count; 
+        
+    }
+};
