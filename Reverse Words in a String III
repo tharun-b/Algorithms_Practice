@@ -1,0 +1,26 @@
+class Solution {
+public:
+    string reverseWords(string s) {
+        string st; 
+        string result; 
+        for(auto c:s)
+        {
+            if(c == ' ')
+            {
+               reverse(st.begin(),st.end());
+                result+= st;
+                result+= ' '; 
+                st.clear();
+            }
+            else
+            {
+            st+= c; 
+            }
+        }
+        reverse(st.begin(),st.end());
+                result+= st;
+                st.clear();
+        
+                return result;
+    }
+};
