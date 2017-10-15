@@ -1,0 +1,25 @@
+#define MIN(a,b) ((a<b)?a:b)
+class Solution {
+public:
+    int distributeCandies(vector<int>& candies) {
+        unordered_map<int, int> hash; 
+        for(int i :candies)
+        {
+            hash[i]++;  
+        }
+        vector<int> a(10000,0); 
+        for(auto it :hash)
+        {
+            a[it.second]++; 
+        }
+        int types =0; 
+        for(int i =0; i<10000; i++)
+        {
+            if(a[i])
+            {
+                types+= a[i]; 
+            }
+        }
+        return (MIN(types,candies.size()>>1));
+    }
+};
