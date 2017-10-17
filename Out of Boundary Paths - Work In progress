@@ -1,0 +1,95 @@
+class Solution {
+public:
+    int findPaths(int m, int n, int N, int i, int j) {
+        vector<vector<int>> flag(m, vector<int>(n,0));
+        vector<vector<int>> paths_old(m, vector<int>(n,0));
+        vector<vector<int>> paths_new = paths_old; 
+        vector<vector<int>> lookup(m, vector<int>(n,0));
+        cout<<"0\t";
+        if(N<1) return 0; 
+        int c=0;
+        flag[i][j] =1; 
+        paths_old[i][j] =1; 
+        int cumsum=0; 
+        
+        cout<<"1\t";
+        
+         for(int l=0; l<n; l++)
+            {
+            lookup[0][l] ++;    
+            }
+         for(int l=0; l<n; l++)
+            {
+            lookup[m-1][l] ++;    
+            }
+         for(int k=0; k<m; k++)
+            {
+            lookup[k][0] ++;    
+            }
+         for(int k=0; k<m; k++)
+            {
+            lookup[k][n-1] ++;    
+            }
+       cout<<"2\t";
+        for(int count = N ; count > 0; count--)
+        {   
+            int tempsum =0; 
+            for(auto itr = paths_new.begin(); itr!= paths_new.end(); itr++)
+            {
+                fill(itr->begin(),itr->end(), 0);
+            }
+            cout<<"13\t";
+           // paths_new = vector<vector<int>>(m, vector<int>(n,0));
+            for(int k=0;k<m;k++ )
+            {
+                for(int l=0; l<n; l++)
+                {
+                    cout<<"["<<k <<","<<l<<"]"<<endl;
+                    if(flag[k][l]) 
+                    {                        
+                        
+                        //Counting
+                        tempsum= (tempsum+ (lookup[k][l]%1000000007) * (paths_old[k][l])%1000000007)%1000000007;
+                                                
+                        //Propogation
+                        
+                        if(k>0)
+                        {
+                            flag[k-1][l] = 1; 
+                            paths_new[k-1][l]+=paths_old[k][l]%1000000007 ; 
+                            paths_new[k-1][l] = paths_new[k-1][l]%1000000007;
+                        }
+
+                        if(l>0)
+                        {
+                            flag[k][l-1] = 1; 
+                            paths_new[k][l-1]+= paths_old[k][l]%1000000007; 
+                            paths_new[k][l-1] = paths_new[k][l-1]%1000000007;
+                        }
+
+                        if(k+1<m)
+                        {
+                            flag[k+1][l] = 1; 
+                            paths_new[k+1][l]+= paths_old[k][l]%1000000007; 
+                            paths_new[k+1][l] = paths_new[k+1][l]%1000000007;
+                        }
+                        if(l+1<n)
+                        {
+                            flag[k][l+1] = 1; 
+                            paths_new[k][l+1]+=paths_old[k][l]%1000000007;    
+                            paths_new[k][l+1] = paths_new[k][l+1]%1000000007;
+                        }
+                        flag[k][l] =0; 
+
+                    }
+                }
+            }
+            paths_old.swap(paths_new); 
+           cumsum = (cumsum%1000000007+ (tempsum%1000000007))%1000000007; 
+            cout<<endl<<tempsum<<" "<<cumsum<<endl;; 
+
+        }    
+        return (cumsum);
+    
+    }
+};
