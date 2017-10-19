@@ -1,0 +1,90 @@
+/**
+ * Definition for a point.
+ * struct Point {
+ *     int x;
+ *     int y;
+ *     Point() : x(0), y(0) {}
+ *     Point(int a, int b) : x(a), y(b) {}
+ * };
+ */
+#define MAX(a,b) ((a>b)?a:b)
+#define MIN(a,b) ((a<b)?a:b)
+
+typedef pair<double,double> Line; 
+
+int calculateLine(Point &p, Point &q, Line &L )
+{
+    int den = (p.x-q.x); 
+    if(den ==0) return -1; 
+    
+    double m = ((double)p.y - q.y)/((double)den); 
+    double b = q.y - m * q.x;
+    L.first = m; 
+    L.second = b; 
+        
+    return 0; 
+}
+
+class Solution {
+public:
+    int maxPoints(vector<Point>& points) {
+        
+        int n  = points.size(); 
+        if(n<3) return n; 
+        int maxCount =2; 
+        int vertline = 0;
+        unordered_map<double, unordered_map<double, int>> lineCount; 
+        unordered_map<int, int> vertlineCount; 
+            
+            for(int i =0; i<n; i++)
+            {
+                for(int j=i+1; j<n; j++)
+                {
+                    Line L = make_pair(0,0); 
+                   int res =  calculateLine(points[i], points[j], L);
+                    if(!res)
+                    {
+                        auto itr = lineCount.find(L.first); 
+                        if(itr == lineCount.end()) 
+                        {
+                         //   lineCount[L.first]= new unordered_map<double,int>(); 
+                            lineCount[L.first][L.second] = 1; 
+                        }
+                        else 
+                        {
+                            auto secit = (itr->second).find(L.second);
+                            if(secit != (itr->second).end())
+                            {
+                                secit->second++;
+                            }
+                            else
+                            {
+                                (itr->second)[L.second] = 1; 
+                            }
+                        }
+                            
+                    }
+                    else 
+                    {
+                        int xv = vertlineCount[points[i].x]; 
+                        if(vertlineCount[xv] ==0) vertlineCount[xv] = 1; 
+                        else vertlineCount[xv]++; 
+                    }
+                }
+            }
+        
+        for(auto w:lineCount)
+        {
+          for(auto u:w.second)
+          {
+               maxCount = MAX( u.second, maxCount) ; 
+          }
+        }
+        for(auto w:vertlineCount)
+        {
+           maxCount = MAX( w.second, maxCount) ; 
+        }
+        cout<<maxCount<<endl;
+        return ((1+ sqrt(1+maxCount<<3)))/2; 
+    }
+};
