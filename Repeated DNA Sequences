@@ -1,0 +1,17 @@
+class Solution {
+public:
+    vector<string> findRepeatedDnaSequences(string s) {
+        int len = s.size();
+        unordered_map<string, int> hash; 
+                vector<string> vecresult; 
+
+        if(len<11) return vecresult; 
+        for(int i=0; i+9 < len ;i++)
+        {
+            hash[s.substr(i,10)]++;
+            if(hash[s.substr(i,10)]==2)
+                vecresult.push_back(s.substr(i,10));
+        }
+        return vecresult;
+    }
+};
