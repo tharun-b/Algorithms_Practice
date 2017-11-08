@@ -1,0 +1,37 @@
+#define MAX(a,b) ((a)>(b))?(a):(b)
+class Solution {
+    
+public:
+int lengthOfLongestSubstring(string s) {
+        int n = s.size();
+        unordered_map<char, int> hash;
+        
+        int start =0;  
+        int maxval = 0; 
+
+            for(int i =0; i<n; i++)
+            {
+            char c = s[i];
+            
+            
+             auto it = hash.find(c);
+                if(it ==hash.end()) /* first time update */
+                {
+                    hash[c]  = i; 
+                }
+                else
+                {
+                    int val = hash[c] ;
+                    hash[c]  = i; /* duplicate time update */
+                    start = MAX(val+1, start) ;
+                   // cout<<start<<endl; 
+                    
+                }
+                
+                maxval = MAX(maxval, (i-start+1)); 
+
+            }
+
+        return maxval; 
+    }
+};
