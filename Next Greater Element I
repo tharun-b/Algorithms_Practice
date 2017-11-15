@@ -1,0 +1,39 @@
+class Solution {
+public:
+    vector<int> nextGreaterElement(vector<int>& findNums, vector<int>& nums) {
+        vector<int> result;
+        if(nums.empty()) return result; 
+        
+        unordered_map<int,int> ds; 
+        stack<int> st; 
+        
+        st.push(nums[0]);
+        ds[nums[0]] = -1; 
+        
+        for(int i = 1; i< nums.size(); i++)
+        {
+            int val = nums[i]; 
+            ds[val] = -1; 
+            if(!st.empty())
+            while(st.top() < val )
+            {
+                 ds[st.top()] = val; 
+                 st.pop(); 
+                if(st.empty()) break; 
+            }
+            
+             st.push(val);
+            
+        }
+        
+        for(auto i: findNums)
+        {
+            result.push_back(ds[i]); 
+        }
+        
+        return result; 
+        
+        
+        
+    }
+};
