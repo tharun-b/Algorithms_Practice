@@ -1,0 +1,38 @@
+class Solution {
+public:
+    int DFS(vector<vector<int>>& image, int sr, int sc, int newColor, int w , int h, int curColor) {
+        if((sr >= h) ||(sr<0)) return -1; 
+        if((sc >= w)||(sc<0)) return -1;
+  
+        int temp = image[sr][sc];
+        if(temp == curColor)
+        {
+            image[sr][sc] = newColor; 
+            
+            DFS(image, sr+1, sc, newColor, w, h, curColor);
+            DFS(image, sr, sc+1, newColor, w, h, curColor);
+            DFS(image, sr, sc-1, newColor, w, h, curColor);
+            DFS(image, sr-1, sc, newColor, w, h, curColor);
+        }
+        
+        return 0; 
+        
+    }
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {
+        
+        int h = image.size(); 
+        int w  = image[0].size(); 
+        
+        int cur = image[sr][sc];
+        
+        if(cur == newColor) return image; 
+        image[sr][sc] = newColor; 
+        DFS(image, sr+1, sc, newColor, w, h, cur);
+        DFS(image, sr, sc+1, newColor, w, h, cur);
+        DFS(image, sr, sc-1, newColor, w, h, cur);
+        DFS(image, sr-1, sc, newColor, w, h, cur);
+        
+        return image; 
+        
+    }
+};
