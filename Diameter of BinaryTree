@@ -1,0 +1,27 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+#define MAX(x,y) (((x)>(y))?(x):(y))
+class Solution {
+public:
+    int maxdia = 0; 
+    int depth(TreeNode* root)
+    {
+        if(root == NULL) return 0; 
+        int l = depth(root->left);
+        int r = depth(root->right);
+        maxdia = MAX(maxdia, (l+r));
+        
+        return(MAX(l,r)+1); 
+    }
+    int diameterOfBinaryTree(TreeNode* root) {
+        int maxd = depth(root);
+        return maxdia; 
+    }
+};
