@@ -1,0 +1,32 @@
+class Solution {
+public:
+    bool isPalindrome(string s) {
+        vector<int> a;
+        a.reserve(s.size());
+        int i=0; 
+        for(auto c:s)
+        {
+            if((c >='a') && (c<= 'z'))
+            {
+                a.push_back(c-'a');
+                i++;
+            }
+            if((c>='A') && (c<= 'Z'))
+            {
+                a.push_back(c-'A');
+                i++;
+            }
+            if((c>='0') && (c<= '9'))
+            {
+                a.push_back(26 +c-'0');
+                i++;
+            }
+        }
+        
+        for(int i =0, ri = (a.size()-1);  i<=ri; i++, ri--)
+        {
+            if(a[i] != a[ri]) return false; 
+        }
+        return true; 
+    }
+};
