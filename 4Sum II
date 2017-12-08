@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int fourSumCount(vector<int>& A, vector<int>& B, vector<int>& C, vector<int>& D) {
+        int n = A.size(); 
+        if(n<1) return 0; 
+        unordered_map<int,int> lhash;
+        unordered_map<int,int> rhash;
+
+        int ct = 0; 
+        for(int i =0; i<n; i++)
+        {
+            for (int j =0; j<n; j++)
+            {
+                int left = A[i] + B[j];
+                int right = C[i] + D[j];
+                lhash[left]++; 
+                rhash[right]++;
+                
+            }
+        }
+        
+        for(auto a:lhash)
+        {
+            int val = a.first ;
+            auto itr  = rhash.find(-val);
+            if(itr != rhash.end())
+             ct += (a.second * (itr->second));
+        }
+        
+        return ct; 
+    }
+};
