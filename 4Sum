@@ -1,0 +1,88 @@
+class Solution {
+public:
+    bool checkandadd(vector<vector<int>> &result, vector<int> &numv)
+    {
+            
+        bool flag = false; 
+        sort(numv.begin(), numv.end());
+        
+        for(auto v:result)
+        {
+            bool iflag = true; 
+            sort(v.begin(), v.end());
+            for(int i =0; i< v.size(); i++)
+            {
+                    int x = numv[i];
+                    int y = v[i];
+    
+                    iflag = iflag && (x == y);
+            }
+            
+            if(iflag) return false;
+            flag = (flag || iflag);
+        }
+        
+        if(!flag) result.push_back(numv);
+        return !flag; 
+        
+    }
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        int n = nums.size(); 
+        vector<vector<int>> result; 
+        if(n<4) return result; 
+        unordered_map<int,vector<int>> hash;
+            
+        for(int i=0; i< n; i++)
+        {
+            for(int j=(i+1); j< n; j++)
+            {
+                int s= nums[i]+nums[j];
+                auto itr = hash.find(s);
+                if(itr!= hash.end())
+                {
+                    (itr->second)[0]++;
+                    (itr->second).push_back(i);
+                    (itr->second).push_back(j);
+                }
+                else
+                {
+                    hash[s].push_back(1);
+                    hash[s].push_back(i);
+                    hash[s].push_back(j);
+                }
+            }
+        }
+        
+        vector<int> temp; 
+        
+         for(int i=0; i< n; i++)
+        {
+            for(int j=(i+1); j< n; j++)
+            {
+                
+                int s= nums[i]+nums[j];
+                auto itr = hash.find(target- s);
+                if(itr!= hash.end())
+                {
+                   int ct = (itr->second)[0];
+                    for(int k = 0; k < ct; k++)
+                    {
+                        int m = (itr->second)[(k<<1)+1];
+                        int n = (itr->second)[(k<<1)+2];
+                        if((m != i) && (m!=j) && (n!=i) && (n!=j))
+                        {
+                            temp.insert(temp.end(), {nums[i],nums[j],nums[m],nums[n]});
+                            checkandadd(result, temp);
+                            temp.clear();
+                        }                        
+                    }//k
+                    
+                }
+            }//j
+         }//i
+        
+        //Remove Duplicates
+        
+        return result;
+    }
+};
