@@ -1,0 +1,21 @@
+class Solution {
+public:
+    bool validfun(string &s, int l , int r, int lim)
+    {
+        if(l>=r) return 1;
+        if(s[l] == s[r])
+        {
+            return validfun(s,l+1,r-1, lim);
+        }
+        else
+        {
+            if(lim<1) return false; 
+            return (validfun(s,l,r-1,lim-1) || validfun(s,l+1,r,lim-1));
+        }
+        return true; 
+    }
+    bool validPalindrome(string s) {
+        
+        return validfun(s,0,s.size()-1,1);
+    }
+};
