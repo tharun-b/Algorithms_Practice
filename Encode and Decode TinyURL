@@ -1,0 +1,48 @@
+class Solution {
+public:
+    map<string, string> hash;
+    int ct =0; 
+    // Encodes a URL to a shortened URL.
+    char getNextChar(int n)
+    {
+        if(n<26)
+           return ('a'+n);
+        else if(n<52)
+            return ('A'+n-26);
+        else return ('0'+n-52); 
+        
+    }
+    string getNextString()
+    {
+        int t =ct; 
+        string res = "aaaaaa";
+        int i =0; 
+        while(t)
+        {
+            int v = (t%62);
+            res[i] = getNextChar(v);
+            t = t/62;
+            i++; 
+        }
+        return res; 
+        
+    }
+    string encode(string longUrl) {
+        ct++; 
+        string str =   getNextString();
+        
+        hash[str] = longUrl;
+        
+        return ("http://tinyurl.com/" + str); 
+    }
+
+    // Decodes a shortened URL to its original URL.
+    string decode(string shortUrl) {
+        string str(shortUrl.begin()+19,shortUrl.begin()+25); 
+        return hash[str];
+    }
+};
+
+// Your Solution object will be instantiated and called as such:
+// Solution solution;
+// solution.decode(solution.encode(url));
