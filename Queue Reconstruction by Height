@@ -1,0 +1,54 @@
+class comp{
+    public:
+    bool operator()(pair<int, int> &a, pair<int, int> &b )
+     {
+         if((a.first)< (b.first))
+             return true;
+         else if((a.first) == (b.first))
+         {
+             return (a.second > b.second);
+         }
+         else return false;
+     }
+     
+};
+
+void print(list<pair<int,int>> &data)
+{
+    for(auto a: data)
+    {
+        cout<<"["<<a.first<<","<<a.second<<"]"; 
+    }
+    cout<<endl;
+}
+class Solution {
+public:
+    vector<pair<int, int>> reconstructQueue(vector<pair<int, int>>& people) {
+        if(people.size()<2) return people; 
+        sort(people.begin(), people.end(), comp());
+        
+        list<pair<int,int>> data; 
+        int n = people.size(); 
+        for(int r = n-1; r>=0; r--)
+        {
+            auto a = people[r];
+            
+            auto ptr = data.begin();
+            int count =0; 
+            while(ptr != data.end())
+            {
+               // print(data);
+                if(count == a.second) break; 
+                count++;
+                ptr++; 
+            }
+            data.insert(ptr, a);
+        }
+        
+        vector<pair<int,int>> result; 
+        for(auto a:data)
+            result.push_back(a);
+        
+        return result;
+    }
+};
