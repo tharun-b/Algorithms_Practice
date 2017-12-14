@@ -1,0 +1,103 @@
+struct TrieNode{
+   struct TrieNode *children[2]; 
+   bool isEnd = true; 
+};
+
+bool insert(TrieNode *root, bitset<31> &bits)
+{
+    if(root == NULL ) return false; 
+    TrieNode *ptr = root;
+    int ct =0; 
+    for(int i =bits.size()-1; i>=0; i--)
+    {
+        // cout<<bits[i]<<",";
+        if(ptr)
+        {
+                int ind = bits[i]; 
+                if(!(ptr->children[ind]))
+                {
+                    ct++; 
+                    TrieNode *newP  = new TrieNode;
+                    newP->children[0] = NULL;
+                    newP->children[1] = NULL;
+                    ptr->children[ind] = newP;
+                }
+
+            ptr->isEnd = false; 
+            ptr = ptr->children[ind];
+        }
+    }
+    // cout<<"finalcount "<<ct<<endl; 
+    return true; 
+}
+
+
+bool XORsearch(TrieNode *root, bitset<31> &bits, bitset<31> &result)
+{
+    if(root == NULL ) return false; 
+    TrieNode *ptr = root;
+    int ct =0; 
+    for(int i =bits.size()-1; i>=0; i--)
+    {
+             //   cout<<bits[i]<<",";
+
+            if(ptr->children[bits[i]] != NULL)
+            {
+                result[i] = 1;
+                ptr = ptr->children[bits[i]] ;
+                ct++; 
+            }
+            else
+            {
+                if(ptr->children[~bits[i]]   != NULL)
+                {
+                    result[i] = 0; 
+                    ptr = ptr->children[~bits[i]] ;
+                    
+                }
+                else
+                    return false; 
+            }
+    }
+        // cout<<"hits "<<ct<<endl; 
+        // cout<<result.to_ulong()<<endl;
+    return true; 
+}
+
+
+class Solution {
+public:
+    int findMaximumXOR(vector<int>& nums) {
+        int n  = nums.size();
+        
+        TrieNode *root = new TrieNode; 
+        root->children[0] = NULL;
+        root->children[1] = NULL;
+
+        
+        for(int i =0; i< n; i++)
+        {
+            {  
+                bitset<31> datum(nums[i]);
+            
+                insert(root, datum);
+            }
+        }
+    
+        int maxr = 0; 
+        for(int i =0; i< n; i++)
+        {
+             bitset<31> datum(((~0)>>1) ^ (nums[i]));
+             bitset<31> result(0);
+            
+            XORsearch(root, datum,result);
+            
+            int resultint = (int)(result.to_ulong());
+            if(maxr < resultint) maxr = resultint; 
+            
+        }
+    
+    return maxr; 
+    
+    }
+};
