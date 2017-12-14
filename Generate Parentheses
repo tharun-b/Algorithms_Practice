@@ -1,0 +1,39 @@
+class Solution {
+public:
+
+    vector<string> generateParenthesis(int n) {
+       
+        if(n<1) return {};  
+       
+        vector<vector<string>> memox((n+1),vector<string>(1,""));
+       
+        for(int j =1; j<n+1; j++)
+        {
+            memox[j][0] = memox[j-1][0]+"(";
+        }
+        
+        for(int i =1; i<n+1; i++)
+        {
+            for(int j =i; j<n+1; j++)
+            {
+                for(int k = 0; k < memox[j].size(); k++)
+                {
+                    memox[j][k] += ")";
+                }
+                if((j>i))
+                {
+                    for(auto s:memox[j-1])
+                    {
+                        memox[j].push_back(s +"(");
+                    }
+                     
+                }
+            }
+            
+        }
+        
+        return memox[n];
+        
+        
+    }
+};
