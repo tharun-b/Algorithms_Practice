@@ -1,0 +1,139 @@
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+struct level {
+    TreeNode *lptr = NULL; 
+    bool isValProcessed = 0;
+    bool isRightProcessed = 0;   
+    bool isLeftProcessed = 0;  
+};
+
+class BSTIterator {
+public:
+    deque<level> heightMap;
+    int curlevel = 0; 
+    TreeNode *rightMost = NULL; 
+    
+    void DFS(TreeNode *root, deque<level> &heightMap)
+    {
+        if(!root) return;
+       
+        {
+            level l1; 
+            l1.lptr = root; 
+            l1.isValProcessed = 0;
+            l1.isRightProcessed = (root->right == NULL); 
+            l1.isLeftProcessed = 1; 
+            
+            heightMap.push_back(l1);
+        }
+       // cout<<root->val<<","<<heightMap.size()<<endl;
+        DFS(root->left, heightMap);
+
+    }
+    
+    TreeNode* findRightEnd(TreeNode *ptr)
+    {
+        if(!ptr) return ptr; 
+        
+        if(!(ptr->right)) return ptr; 
+        else return findRightEnd(ptr->right);
+    }
+    
+    BSTIterator(TreeNode *root) {
+        if(!root) 
+        {
+//            rightMost = root;
+//            level l1; 
+            
+//            l1.lptr = root;
+//            l1.isValProcessed = 1; 
+//            heightMap.push_back(l1);
+
+            return; 
+        }
+        
+        // level l1; 
+        // l1.lptr = root; 
+        // l1.isValProcessed = (root->right == NULL);
+        // l1.isRightProcessed = 1 ;
+        // l1.isLeftProcessed = (root->left == NULL) ; 
+        // heightMap.push_back(l1);
+        
+        DFS(root, heightMap); 
+       // cout<<"DFS Done"<<endl;
+        
+        rightMost  = findRightEnd(root); 
+       // cout<<rightMost<<"-> "<<rightMost->val<<endl;
+        
+        curlevel = heightMap.size()-1; 
+        //cout<<curlevel<<endl;
+
+    }
+
+    /** @return whether we have a next smallest number */
+    bool hasNext() {
+        
+        
+        if(heightMap.empty()) return false;
+        
+//         {/* any pre processing */
+            
+//             cout<<heightMap[curlevel].lptr<<endl; 
+//         } 
+        return !((heightMap[curlevel].lptr == rightMost) && (heightMap[curlevel].isValProcessed == 1));
+        
+    }
+
+    /** @return the next smallest number */
+    int next() {
+        if(heightMap.empty()) return -1; 
+        
+        if (((heightMap[curlevel].lptr == rightMost) && (heightMap[curlevel].isValProcessed == 1))) return -1;
+        
+       
+        TreeNode *ptr = heightMap[curlevel].lptr;
+        int val = ptr->val; 
+        
+        heightMap[curlevel].isValProcessed  = 1; 
+            
+      
+        while(!heightMap.empty() && (heightMap[curlevel].isValProcessed && heightMap[curlevel].isRightProcessed))
+        {
+            heightMap.pop_back(); 
+            curlevel--;   
+        }
+        if(!heightMap.empty())
+        {
+          
+             /* Parent or Current*/
+            if(heightMap[curlevel].isValProcessed ==1)
+            { 
+                /*Explore Right*/
+                if(heightMap[curlevel].isRightProcessed == 0)
+                {
+                    heightMap[curlevel].isRightProcessed = 1; 
+                    DFS(heightMap[curlevel].lptr->right, heightMap); 
+                    curlevel = heightMap.size()-1;
+                }
+
+            }
+        }
+        
+        
+        return val; 
+       
+    }
+};
+
+/**
+ * Your BSTIterator will be called like this:
+ * BSTIterator i = BSTIterator(root);
+ * while (i.hasNext()) cout << i.next();
+ */
