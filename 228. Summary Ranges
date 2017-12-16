@@ -1,0 +1,41 @@
+class Solution {
+public:
+    vector<string> summaryRanges(vector<int>& nums) {
+        int n = nums.size(); 
+        vector<string> result ; 
+        
+        if(n<1) return result; 
+        
+        int rangel =nums[0]; 
+        int cur = nums[0];
+        cur++; 
+        
+        for(int i =1; i<n;i++, cur++)
+        {
+            
+            if(nums[i] == cur)
+            {
+                /* Do nothing */
+            }
+            else
+            {
+                if(rangel != (cur-1))
+                    result.push_back(to_string(rangel) +"->" +to_string(cur-1));
+                else
+                    result.push_back(to_string(rangel));
+
+                rangel = nums[i];
+                cur = nums[i];                
+            }
+
+        }
+        if(rangel == nums[n-1])
+            result.push_back(to_string(rangel));
+        else
+            result.push_back(to_string(rangel) +"->" +to_string(cur-1));
+
+        return result;
+        
+        
+    }
+};
