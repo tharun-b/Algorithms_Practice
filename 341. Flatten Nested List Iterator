@@ -1,0 +1,171 @@
+/**
+ * // This is the interface that allows for creating nested lists.
+ * // You should not implement it, or speculate about its implementation
+ * class NestedInteger {
+ *   public:
+ *     // Return true if this NestedInteger holds a single integer, rather than a nested list.
+ *     bool isInteger() const;
+ *
+ *     // Return the single integer that this NestedInteger holds, if it holds a single integer
+ *     // The result is undefined if this NestedInteger holds a nested list
+ *     int getInteger() const;
+ *
+ *     // Return the nested list that this NestedInteger holds, if it holds a nested list
+ *     // The result is undefined if this NestedInteger holds a single integer
+ *     const vector<NestedInteger> &getList() const;
+ * };
+ */
+class NestedIterator {
+public:
+    stack<vector<NestedInteger>::iterator> st_it;
+    stack<vector<NestedInteger>::iterator> st_end; 
+    bool remove_blanks()
+    {
+        if(st_it.empty()) 
+            return false; 
+        
+        if((st_it.top() != st_end.top())) 
+            return false; 
+        
+        while(st_it.top() == st_end.top())
+        {
+            st_it.pop();
+            st_end.pop(); 
+            if(st_it.empty()) return true; 
+        }
+        return true; 
+    }
+    
+    
+    
+    void explore_first_int()
+    {
+   
+        while(remove_blanks())
+        {
+            if(st_it.empty()) 
+            return; 
+            
+            auto it = st_it.top();
+                st_it.pop(); 
+                st_it.push(++it); 
+        }
+        
+          if(st_it.empty()) 
+            return; 
+        
+        while((st_it.top()->isInteger()) == false)
+        {
+           //cout << st_it.size() << ",b0   "<<st_it.top()->isInteger()<<endl; 
+           vector<NestedInteger> &v =  st_it.top()->getList();
+            
+                st_it.push(v.begin());
+                st_end.push(v.end());
+                if(v.empty())
+                {
+                     while(remove_blanks())
+                    {
+                        if(st_it.empty()) 
+                        return; 
+
+                        auto it = st_it.top();
+                            st_it.pop(); 
+                            st_it.push(++it); 
+                    }
+                }
+            
+            if(st_it.empty()) 
+            return; 
+            
+           // cout << st_it.size() << ",bi   "<<st_it.top()->isInteger()<<endl; 
+
+        }
+             // if(it->isInteger()) break; 
+        //cout << st_it.size() << ",b1   "<<st_it.top()->getInteger()<<endl; 
+        
+          
+    } 
+
+//     void update_next()
+//     {
+//         auto it = st_it.top(); 
+//         auto it_end = st_end.top(); 
+        
+//         it++; 
+//         st_it.pop(); 
+//         st_it.push(it);
+
+//         while((it == it_end) && (!st_it.empty()))
+//         {
+//             st_it.pop();
+//             st_end.pop();
+//             if((!st_it.empty()))
+//             {
+//                 it = st_it.top(); 
+//                 it_end = st_end.top(); 
+//             }
+//             it++; 
+//            // cout << st_it.size() << ",c0 " <<endl; 
+//         }
+        
+//         if(!st_it.empty())
+//         {
+//             st_it.pop(); 
+//             st_it.push(it);
+//           //  cout << st_it.size() << ",d, --> " <<retval <<endl; 
+//         }
+//     }
+    
+    NestedIterator(vector<NestedInteger> &nestedList) {
+        if(!nestedList.empty())
+        {
+            st_it.push(nestedList.begin()); 
+            st_end.push(nestedList.end()); 
+        }
+        explore_first_int(); 
+        
+       //cout << st_it.size() << ",a," <<endl; 
+    }
+
+    int next() {
+        
+        explore_first_int(); 
+        if(st_it.empty()) return -1; 
+        
+        
+        int val =  (st_it.top()->getInteger());
+        
+        auto &it =   st_it.top();
+                    st_it.pop(); 
+                    st_it.push(++it); 
+       
+        //cout << st_it.size() << "--->"<< val <<endl; 
+
+        return val;
+                        
+    }
+
+    bool hasNext() {
+                //cout << st_it.size() << ",e,"<<endl; 
+
+//          if (st_it.empty()) return false; 
+    
+//         while(st_it.top() == st_end.top() && (!st_it.empty()))
+//         {
+//                 st_it.pop();
+//                 st_end.pop();    
+            
+//                 st_it.push(st_it.top()++);
+//                 st_it.push(st_it.)
+//         }
+        explore_first_int(); 
+        return (!st_it.empty());
+        
+    }
+};
+
+/**
+ * Your NestedIterator object will be instantiated and called as such:
+ * NestedIterator i(nestedList);
+ * while (i.hasNext()) cout << i.next();
+ */
