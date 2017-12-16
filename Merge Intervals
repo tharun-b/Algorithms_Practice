@@ -9,6 +9,31 @@
  */
 #define MIN(a,b) (((a)<(b))?(a):(b))
 #define MAX(a,b) (((a)>(b))?(a):(b))
+class compare_1{
+public:
+    bool operator()(Interval &i1, Interval &i2)
+    {
+        if(i1.start < i2.start)
+        {
+            return true ;
+        }
+        else if((i1.start > i2.start))
+        {
+            return false; 
+        }
+        else
+        {
+            if(i1.end < i2.end)
+            {
+                return true; 
+            }
+            else
+            {
+                return false; 
+            }
+        }
+    }
+};
 
 class Solution {
 public:
@@ -24,60 +49,37 @@ public:
 
         return false;
     }
-    
-    bool DFS(vector<vector<int>> &neighbors, vector<bool> &visited,int current, int &minu, int &maxu, vector<Interval> &intervals)
-    {
-        if(visited[current]) return false; 
-        
-        visited[current] = true; 
-        if(neighbors.empty()) return false;
-        
-        for(auto cnbr : neighbors[current])
-        {
-            int tm = intervals[cnbr].start; 
-            int tM = intervals[cnbr].end;        
-            if(!visited[cnbr])
-            {
-                DFS(neighbors, visited, cnbr, tm, tM, intervals);
-                minu = min(tm, minu);
-                maxu = max(tM, maxu);  
-            }
-        }
-        
-        return true; 
-    }
+
     
     vector<Interval> merge(vector<Interval>& intervals) {
             int n = intervals.size();
             if(n<1) return {};
             vector<Interval> result; 
-            vector<vector<int>> neighbors(n,vector<int>{});
-                
-            for(int i =0; i< n ; i++)
+           
+        sort(intervals.begin(), intervals.end(),compare_1());
+        // for(auto a:intervals )
+        // {
+        //     cout<<"["<<a.start<<","<<a.end<<"]"<<"\t";
+        // }
+        
+        Interval cur = intervals[0];
+        
+        for(int i = 1; i < n; i++)
+        {
+            if(isOverlapping(cur,intervals[i]))
             {
-                for (int j=i+1; j<n ; j++)
-                {
-                    if(isOverlapping(intervals[i], intervals[j]))
-                    {
-                        neighbors[i].push_back(j);
-                        neighbors[j].push_back(i);
-                    }
-                }
+                cur.start = min(cur.start , intervals[i].start);
+                cur.end = max(cur.end, intervals[i].end);
             }
-        
-            vector<bool> visited(n,false);
-            for(int i =0; i< n ; i++)
+            else
             {
-                if(visited[i] == false)
-                {
-                    int tm = intervals[i].start; 
-                    int tM = intervals[i].end;        
-
-                    DFS(neighbors, visited, i, tm, tM, intervals);
-                    result.emplace_back(Interval(tm,tM));
-                }
-            }  
+                result.push_back(cur);
+                cur = intervals[i];
+            }
+        }
         
+        result.push_back(cur);
+
         return result; 
     }
 };
