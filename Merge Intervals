@@ -1,0 +1,83 @@
+/**
+ * Definition for an interval.
+ * struct Interval {
+ *     int start;
+ *     int end;
+ *     Interval() : start(0), end(0) {}
+ *     Interval(int s, int e) : start(s), end(e) {}
+ * };
+ */
+#define MIN(a,b) (((a)<(b))?(a):(b))
+#define MAX(a,b) (((a)>(b))?(a):(b))
+
+class Solution {
+public:
+    bool isOverlapping(Interval &i1, Interval &i2)
+    {
+        
+        int start = i1.start;
+        int end = i1.end;
+
+        if((start <= i2.start) && (end >= i2.start)) return true;
+        if((start <= i2.end) && (end >= i2.end)) return true;
+        if((start >= i2.start) && (end <= i2.end)) return true;
+
+        return false;
+    }
+    
+    bool DFS(vector<vector<int>> &neighbors, vector<bool> &visited,int current, int &minu, int &maxu, vector<Interval> &intervals)
+    {
+        if(visited[current]) return false; 
+        
+        visited[current] = true; 
+        if(neighbors.empty()) return false;
+        
+        for(auto cnbr : neighbors[current])
+        {
+            int tm = intervals[cnbr].start; 
+            int tM = intervals[cnbr].end;        
+            if(!visited[cnbr])
+            {
+                DFS(neighbors, visited, cnbr, tm, tM, intervals);
+                minu = min(tm, minu);
+                maxu = max(tM, maxu);  
+            }
+        }
+        
+        return true; 
+    }
+    
+    vector<Interval> merge(vector<Interval>& intervals) {
+            int n = intervals.size();
+            if(n<1) return {};
+            vector<Interval> result; 
+            vector<vector<int>> neighbors(n,vector<int>{});
+                
+            for(int i =0; i< n ; i++)
+            {
+                for (int j=i+1; j<n ; j++)
+                {
+                    if(isOverlapping(intervals[i], intervals[j]))
+                    {
+                        neighbors[i].push_back(j);
+                        neighbors[j].push_back(i);
+                    }
+                }
+            }
+        
+            vector<bool> visited(n,false);
+            for(int i =0; i< n ; i++)
+            {
+                if(visited[i] == false)
+                {
+                    int tm = intervals[i].start; 
+                    int tM = intervals[i].end;        
+
+                    DFS(neighbors, visited, i, tm, tM, intervals);
+                    result.emplace_back(Interval(tm,tM));
+                }
+            }  
+        
+        return result; 
+    }
+};
