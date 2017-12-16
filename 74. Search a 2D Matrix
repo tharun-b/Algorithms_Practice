@@ -1,0 +1,58 @@
+class Solution {
+public:
+    
+    int getIndex(int t,int w, int h, int &indx, int &indy)
+    {
+        if((t<0)  || (t>=w*h)) return -1;
+        
+        indx = t%w;
+        indy = t/w;
+        
+        return 0; 
+    }
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int h = matrix.size();
+        if(h<1) return false; 
+        int w = matrix[0].size(); 
+        if(w<1) return false; 
+    
+        int l = 0; 
+        int r = (w*h -1); 
+        int m = (l+r)>>1;
+        
+        int lval = matrix[0][0];
+        int rval = matrix[h-1][w-1];
+        
+        if((target<lval)  || (target>rval)) return false; 
+        if((target==lval)  || (target==rval)) return true; 
+
+        int mval; 
+        while((r-l)>1)
+        {
+            int indx, indy; 
+            m = (l+r)>>1;
+            
+            int check =  getIndex(m,w,h,indx,indy);
+            if(check<0) return false; 
+            
+            mval = matrix[indy][indx];
+            
+            if(target < mval)
+            {
+                r = m; 
+                rval = mval; 
+            }
+            else if(target > mval)
+            {
+                l = m; 
+                lval = mval;
+            }
+            else return true;
+        }
+        
+        
+        return ((rval == target) || (lval ==target));
+        
+        
+    }
+};
