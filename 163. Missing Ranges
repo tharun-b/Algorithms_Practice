@@ -1,0 +1,71 @@
+class Solution {
+public:
+    
+    string pair_string(int left, int right)
+    {
+        if(left == right)
+        {
+            return to_string(left);
+        }
+        else
+        {
+            return to_string(left) + "->" + to_string(right) ;
+        }
+        
+        return  "";
+    }
+    vector<string> findMissingRanges(vector<int>& nums, int lower, int upper) {
+        int n = nums.size(); 
+        
+        vector<string> result;
+        
+        if(n<1) {
+            result.push_back(pair_string(lower,upper));
+            return result; 
+        } 
+        
+        
+        //int left = nums[0];
+        int curr = nums[0];
+        
+        if(lower<curr)
+        {
+            if(curr>INT_MIN)
+            {
+                cout<<lower<<","<<curr<<endl;
+                result.push_back(pair_string(lower,curr-1));
+            }
+        }
+        
+        for(int i =1; i< n ; i++)
+        {
+            
+            if(nums[i] == nums[i-1])
+                continue;
+            
+            curr++;
+            if(nums[i] == curr)
+            {
+                
+            }
+            else
+            {
+                result.push_back(pair_string(curr,nums[i]-1));
+                curr = nums[i];
+            }
+        }
+        
+
+        if(curr < INT_MAX)
+        {
+            curr++; 
+            if(curr<=upper)
+            {
+                cout<<curr<<","<<upper<<endl;
+                result.push_back(pair_string(curr,upper));
+            }
+        }
+
+        return result;
+    }
+};
