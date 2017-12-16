@@ -1,0 +1,46 @@
+class Solution {
+public:
+    vector<string> letterCombinations(string digits) {
+        vector<string> look {" ","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+        
+        int n = digits.size();
+        if(n<1) return {}; 
+        
+        
+        vector<string> cur; 
+
+        for(int i =0; i< n; i++)
+        {
+            string s= look[digits[i]-'0'];
+            int m = s.size(); 
+            if(m>0)
+            {
+                vector<string> temp;
+                for(auto a:s)
+                {
+                    string sa(1,a); 
+                    
+                    if(cur.empty())
+                    {
+                         temp.push_back(sa);
+                    }
+                    else
+                    {
+                        for(auto v:cur)
+                        {
+                            temp.push_back(v+sa);
+                        }
+                    }
+                }
+                
+                cur.swap(temp);
+                temp.clear();
+                                        
+            }
+        }
+        
+        
+        return cur;
+        
+    }
+};
