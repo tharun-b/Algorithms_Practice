@@ -1,0 +1,48 @@
+class Solution {
+public:
+    
+    int fun(int i, vector<int>& prices,bool isBought, int cooldown, vector<int> &memo)
+    {
+        if(i >=prices.size()) return 0;
+        
+        if(isBought)
+        {
+            int v1 = fun(i+1, prices, 1, 0 , memo); 
+            int v2 = fun(i+1, prices, 0, 1 , memo);
+            
+            int m =  max(v1, v2 + prices[i]);
+            return m ; 
+        }
+        else
+        {
+            if(cooldown > 0)
+            {
+                return   (memo[i+1]>0)?memo[i+1]:(memo[i+1] = fun(i+1, prices, 0, 0, memo)); 
+            }
+            else
+            {
+                int v2 = (memo[i+1]>0)?memo[i+1]:(memo[i+1] =fun(i+1,prices, 0, 0, memo));
+                int v1 = (fun(i+1, prices, 1, 0, memo)) ; 
+                          
+                int v =  max((fun(i+1, prices, 1, 0, memo) - prices[i]), v2);
+                memo[i] = v; 
+                 return v; 
+                          
+            }
+            
+            
+        }
+        
+        return 0; 
+        
+        
+    }
+    int maxProfit(vector<int>& prices) {
+        vector<int> memo(prices.size()+1,-1);
+        
+        if(prices.size()<2) return 0; 
+        return fun(0,prices,0, 0, memo);
+        
+        
+    }
+};
