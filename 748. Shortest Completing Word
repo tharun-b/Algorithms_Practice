@@ -1,0 +1,59 @@
+class Solution {
+public:
+    string shortestCompletingWord(string licensePlate, vector<string>& words) {
+        vector<int> hash(26,0); 
+        
+        for(auto c:licensePlate)
+        {
+            auto lc = tolower(c); 
+            if((lc >= 'a')  && (lc <= 'z'))
+            hash[(lc -'a')]++; 
+        }
+        
+        int curmin = 1001; 
+        int argmin = 0 ; 
+        for(int ind = 0; ind < words.size(); ind++)
+        {
+            vector<int> hash2(26,0); 
+
+            for(auto c:words[ind])
+            {
+                auto lc = tolower(c); 
+                
+                if((lc >= 'a')  && (lc <= 'z'))
+                hash2[(lc -'a')]++; 
+            }
+            
+
+
+            bool flag = true; 
+            for(int i =0; i < 26; i++)
+            {
+                
+                if(hash[i])
+                {
+                    //cout<<hash[i]<<","<<hash2[i]<<endl;
+                    flag = (flag && (hash[i] <= hash2[i]));
+                    
+                }
+            }
+                 // cout<<flag<<endl;                
+            if(flag)
+            {
+                if(curmin > words[ind].size())
+                {
+                    curmin = words[ind].size();
+                    argmin = ind; 
+                  //  printf("%d",argmin);
+                }
+            }
+            
+            //hash2.clear(); 
+            
+        }
+        
+        return words[argmin]; 
+        
+        
+    }
+};
