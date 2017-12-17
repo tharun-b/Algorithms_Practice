@@ -1,0 +1,24 @@
+class Solution {
+public:
+    double myPow(double x, int n) {
+        
+        if(n==0) return 1; 
+        
+        bool flag = false; 
+        if(n<0) 
+        {
+             flag = true;
+            n = -n; 
+        }
+        double v =  myPow(x, n>>1);
+        
+        double result = v*v; 
+        if(n&1) result *=x; 
+       
+        if(flag && (result!=0) ) result  = 1/result;
+        
+        return result; 
+    }
+    
+   
+};
