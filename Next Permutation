@@ -1,0 +1,42 @@
+class Solution {
+public:
+    void swap(vector<int> &nums, int i , int j)
+    {
+        int temp = nums[i];
+        nums[j] = nums[i];
+        nums[i] = temp; 
+    }
+    void nextPermutation(vector<int>& nums) {
+        int n = nums.size(); 
+        if(n<2) return; 
+        int r; 
+        for( r = n-1;r>0; r--)
+        {
+            if(nums[r-1] < nums[r]) break;
+        }
+        int val = nums[r-1];
+        
+        sort(nums.begin() + r-1, nums.end());
+
+        if(r==0) return;
+        
+        int future = nums[r-1];
+        int i; 
+        for( i = (r-1); i<(n-1); i++)
+        {
+            if(val < future)
+            {
+                break;
+            }
+            else
+            {
+                int temp = future; 
+                future = nums[i+1];
+                nums[i+1] = temp; 
+            }
+        }
+        nums[r-1] = future; 
+        
+        return;         
+    }
+};
