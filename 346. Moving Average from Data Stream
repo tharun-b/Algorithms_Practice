@@ -1,0 +1,37 @@
+class MovingAverage {
+public:
+    deque<int> deq; 
+    
+    double sum =0; 
+    int s =1; 
+    /** Initialize your data structure here. */
+    MovingAverage(int size) {
+      
+    s = size; 
+            
+        
+    }
+        
+    double next(int val) {
+        deq.push_back(val);
+        sum += val;
+        if(deq.size() > s)
+        {
+            int val = deq[0];
+            deq.pop_front();
+            sum -= val;
+            
+            return (sum/s);
+        }
+        
+        
+        return (sum/deq.size()); 
+        
+    }
+};
+
+/**
+ * Your MovingAverage object will be instantiated and called as such:
+ * MovingAverage obj = new MovingAverage(size);
+ * double param_1 = obj.next(val);
+ */
