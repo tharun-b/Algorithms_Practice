@@ -1,0 +1,71 @@
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        int n = matrix.size(); 
+        if(n<1) return {};
+        int m = matrix[0].size();
+        if(m<1) return {};
+        
+        int dir = 0; 
+        
+        int l = 0, r =(m-1), u = 0 , d = (n-1); 
+        
+        vector<int> result; 
+        
+        while((l<=r) && (u<=d))
+        {
+            switch(dir)
+            {
+                    
+            case 0:
+                {
+                    for(int ix = l ; ix <= r; ix++)
+                    {
+                        result.push_back(matrix[u][ix]);
+                    }
+                    u++; 
+                    dir = 1; 
+                    break;
+                }
+            case 1:
+                {
+                    for(int iy = u ; iy <= d; iy++)
+                    {
+                        result.push_back(matrix[iy][r]);
+                    }
+                    r--; 
+                    dir = 2; 
+                    break;
+                }
+            case 2:
+                {
+                    for(int ix = r ; ix >= l; ix--)
+                    {
+                        result.push_back(matrix[d][ix]);
+                    }
+                    d--;
+                    dir = 3; 
+                    break;
+                }
+            case 3:
+                {
+                    for(int iy = d ; iy >= u; iy--)
+                    {
+                        result.push_back(matrix[iy][l]);
+                    }
+                    l++; 
+                    dir = 0; 
+                    break;
+                }
+            
+            default: 
+                cout<<"error"<<endl;  
+                    break;  
+            }
+            
+        }
+         
+        return result;                 
+        
+    }
+};
