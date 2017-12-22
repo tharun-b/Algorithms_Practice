@@ -1,0 +1,64 @@
+class Solution {
+public:
+    enum Color { red =0, blue, green };
+    int minCost(vector<vector<int>>& costs) {
+        /* red blue green */ 
+        int n(costs.size());
+        
+        if(n<1) return 0;
+        
+        if(costs[0].size()<3) 
+        {
+            cout<<"input error"<<endl;
+            return -1; 
+        }
+        
+       int pr = costs[0][red];
+       int pg = costs[0][green];
+       int pb = costs[0][blue]; 
+        
+        
+        for(int i =1; i < n; i++)
+        {
+            int r = min((pg + costs[i][red]), (pb + costs[i][red]));
+            int g = min((pr + costs[i][green]), (pb + costs[i][green]));
+            int b = min((pg + costs[i][blue]), (pr + costs[i][blue]));
+            
+            pr = r; 
+            pg = g; 
+            pb = b; 
+        }
+        
+        return min(pr,min(pg,pb)); 
+    }
+    
+   /*
+   
+   []
+   [[]]
+       r  b g
+   0-- 2 3 4
+   1-- 6 8 9
+   
+    
+   pr 2   9,10-> 9
+   pg 3   11,12
+   pb 4   12, 10
+   
+  0    1    2     3    end
+   
+  r0    a    b     c
+  
+  b1    d    e     f
+  
+  g2    g    h     i 
+   
+   
+   r[n] = max(g[i-1] + , b[i-1]);
+   g[n] = max(r[i-1] , b[i-1]);
+   b[n] = max(r[i-1], g[i-1]);
+   
+   t[0] = 0; 
+   
+   */
+};
