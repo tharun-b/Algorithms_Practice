@@ -1,0 +1,93 @@
+class Solution {
+public:
+    
+    int encode(int weight, int cur)
+    {
+        return ((weight<<1)+ cur);
+    }
+    
+    int decode(int val, int *weight)
+    {
+        *weight = (val>>1);
+        
+        return (val&1);
+    }
+    
+    void gameOfLife(vector<vector<int>>& board) {
+        
+        int ny = board.size();
+        if(ny<1) return;
+        
+        int mx = board[0].size(); 
+        if(mx<1) return; 
+        
+        for(int jy =0; jy < ny; jy++)
+        {
+            for(int ix =0; ix < mx; ix++)
+            {
+                int val =0; 
+               
+                val += ((ix>0)&&      (jy>0))?((board[jy-1][ix-1])&1):0;
+                val += (              (jy>0))?((board[jy-1][ix])&1):0;
+                val += ((ix<(mx-1)) &&(jy>0))?((board[jy-1][ix+1])&1):0;
+               
+                val += ((ix>0)              )?((board[jy][ix-1])&1):0;
+                val += ((ix<(mx-1))         )?((board[jy][ix+1])&1):0;//
+                
+                val += ((ix>0)     && (jy<(ny-1)))?((board[jy+1][ix-1])&1):0;
+                val += (              (jy<(ny-1)))?((board[jy+1][ix])&1):0; //
+                val += ((ix<(mx-1))&& (jy<(ny-1)))?((board[jy+1][ix+1])&1):0; //
+                
+                board[jy][ix] = encode(val, board[jy][ix]);
+                //cout<<board[jy][ix]<<",";
+
+                
+            }
+            //cout<<endl ;
+        }
+        
+        for(int jy =0; jy < ny; jy++)
+        {
+            for(int ix =0; ix < mx; ix++)
+            {
+                int weight =0;
+                int cur = decode(board[jy][ix], &weight);
+               // cout<<weight<<",";
+
+                if(cur == 1)
+                {
+                    board[jy][ix] = ((weight == 2) || (weight == 3));
+                }
+                else
+                {
+                   board[jy][ix] = (weight ==3);
+                }
+        
+            }
+            //cout<<endl; 
+        }
+        
+        return; 
+        /* test cases */
+        
+        /* 
+        [] 
+        [[]]
+        [0] = [0]
+        [1] = [0]
+        [1 0 1 0 ]  = [ 0 0 0 0 ]
+        [ 1; 0; 0 ; 1 ] = [ 0 0 0 0]
+        
+        [ 1 0 ; 
+          1 1 ] = 
+        
+        [ 1 0 1 ;
+          0 1 0 
+          1 1 1 ]
+        
+        [* ALL ONES*]
+        [* all zeros]
+        [ RANDOM 1000 X1000]
+        */
+    }
+};
