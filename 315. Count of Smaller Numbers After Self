@@ -1,0 +1,23 @@
+class Solution {
+public:
+    vector<int> countSmaller(vector<int>& nums) {
+        int n(nums.size());
+        if(n<1) return {};
+        vector<int> result(n,0);
+        
+        int ct =0; 
+        for(int i = n-2; i>=0; i--)
+        {
+             ct =0; 
+            for(int j = (i+1); j<n; j++)
+            {
+                ct+= (nums[j]<nums[i]);
+                
+            }
+            result[i] = ct;
+        }
+        return result; 
+        
+        
+    }
+};
