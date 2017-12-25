@@ -1,0 +1,81 @@
+class Solution {
+public:
+    
+    int openLock(vector<string>& deadends, string target) {
+                
+        vector<int> dist(10000,10000000);
+        for(auto a:deadends)
+        {
+            if((a == target) || (a == "0000")) return -1; 
+            dist[stoi(a)] = -1; 
+        }
+        dist[0] =0; 
+        
+        queue<int> Que;
+        Que.push(0);
+       
+        int targetval = stoi(target); 
+
+        while(!Que.empty())
+        {
+            //1234 create edges
+            int i = Que.front(); 
+            Que.pop(); 
+            
+            string old_string = to_string(i);
+            string s = string(4 - old_string.length(), '0') + old_string;
+            if(dist[i] == -1) continue; 
+              //  cout<<s<<",";
+
+            for(int j =3; j>=0; j--)
+            {
+                char t = s[j]; 
+                int tv = (t-'0');
+                
+                s[j]  = '0' + ((tv+1)%10);
+                
+               // cout<<s<<",";
+                int edge = stoi(s) ;
+                if(dist[edge] != -1) 
+                if(dist[edge] == 10000000)
+                {
+                    dist[edge] = dist[i]+1; 
+                    if(edge == targetval) return dist[targetval];
+                    Que.push(edge);
+                }
+                    
+                s[j]  = '0' + ((tv+9)%10);
+
+                int edge2 = stoi(s) ;  
+                
+                if(dist[edge2] != -1) 
+                if(dist[edge2] == 10000000)
+                {
+                   dist[edge2] = dist[i]+1; 
+                    if(edge2 == targetval) return dist[targetval];
+    
+                   Que.push(edge2);
+                }
+                //cout<<s<<","<<endl;
+
+                s[j] = t; 
+            }
+            
+        }
+            
+            
+        
+        return ((dist[targetval] == 10000000)?(-1):(dist[targetval]));
+        
+        
+    }
+        
+        
+                
+                
+                
+                
+                
+         
+    
+};
