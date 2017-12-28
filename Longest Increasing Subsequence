@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+          int n(nums.size());
+          if(n<1) return 0;
+    
+        vector<int> count(n,0); 
+        
+        count[0] = 1;
+ 
+        int resmax =1; 
+        for(int i=1; i<n; i++)
+        {
+            int val = nums[i];
+            int mx = 0; 
+            for(int j =0; j<i; j++)
+            {
+                if(nums[j] < val)
+                {
+                     mx = max(count[j], mx);
+                }
+                
+            }
+            count[i] = mx+1; 
+            resmax = max(count[i],resmax);
+        }
+
+        return resmax;
+
+    }
+};
