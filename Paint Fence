@@ -1,0 +1,46 @@
+class Solution {
+public:
+    int numWays(int n, int k) {
+        if((n<1) ||(k<1)) return 0; 
+        if(k==1)  return (n<3);
+        
+        
+        int a = 0; 
+        int b = k; 
+        int count = n; 
+        while((--count))
+        {
+            int temp = b; 
+            b = (a+b) * (k-1);
+            a = temp; 
+        }
+        return (a+b);
+    }
+};
+
+
+/*
+n k
+
+n> k 
+
+k < n
+
+if (k =1) n==1, 2 ok
+
+k  = 2  n = 2 
+0 0 
+0 1 
+1 0 
+1 1
+
+k = 2 n ==3 
+
+k = 2 -> 2^n 
+1 1 1 X
+0 0 0 X  n = 6
+
+f(i) = f(i-1) 
+                
+
+*/
