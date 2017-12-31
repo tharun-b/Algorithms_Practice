@@ -1,0 +1,64 @@
+class Solution {
+public:
+    vector<int> pourWater(vector<int>& heights, int V, int K) {
+        int n(heights.size());
+        
+        if(n<1) return heights; 
+        if(V<1) return heights; 
+        
+        int ct = V; 
+        while(ct)
+        {
+            bool flag =1;
+            bool found =0 ; 
+            int hist =K; 
+            for(int i = K; i>0;i-- )
+            {
+                if(heights[i-1] > heights[i]) break;
+                if(heights[i-1] == heights[i]) continue; 
+                if(heights[i-1] < heights[i])
+                {
+                    found =1; 
+                    hist = (i-1) ;
+                }
+            }
+            if(found)
+            {
+                heights[hist]++; 
+                flag =0; 
+            }
+ 
+            if(flag)
+            {
+                found =0; 
+                int hist =K; 
+                for(int i = K; i<(n-1);i++ )
+                {
+                    if(heights[i+1] > heights[i]) break;
+                    if(heights[i+1] == heights[i]) continue; 
+                    if(heights[i+1] < heights[i])
+                    {
+                        found =1; 
+                        hist = (i+1) ;
+                        
+                    }
+                }
+                if(found)
+                {
+                    heights[hist]++; 
+                    flag =0; 
+                }
+                
+                
+            }
+            if(flag)
+            {
+                heights[K]++;
+            }
+            
+            ct--;
+        }
+        
+        return heights; 
+    }
+};
