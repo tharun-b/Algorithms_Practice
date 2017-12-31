@@ -1,0 +1,43 @@
+class Solution {
+public:
+
+    int Util(int start, int end,vector<vector<int>> &table)
+    {
+        if(start == end) 
+        {
+            table[start][end] =0; 
+            return 0; 
+        }
+        
+        if(start == (end-1)) 
+        {
+            table[start][end] = start; 
+            return start; 
+        }
+        if(start == (end-2)) 
+        {
+            table[start][end] = (start+1);
+            return (start+1); 
+        }
+        
+        int minsum = INT_MAX; 
+        for(int i= (start+1); i < end; i++)
+        {
+            int left  = (table[start][i-1] < 0)?  Util(start,i-1,table): table[start][i-1];
+            int right  = (table[i+1][end] < 0)?  Util(i+1,end,table): table[i+1][end];
+
+            minsum = min(max(left,right) +i,minsum);
+        }
+        
+        table[start][end] = minsum;
+        return minsum; 
+    }
+    
+    
+    int getMoneyAmount(int n) {
+        if(n<2) return 0; 
+        vector<vector<int>> table(n+2,vector<int>(n+2,-1));
+        
+        return Util(1,n,table);
+    }
+};
