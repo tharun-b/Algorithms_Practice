@@ -1,0 +1,81 @@
+class StringIterator {
+public:
+    string s;
+    vector<int> count; 
+    int curidx =0; 
+    
+    StringIterator(string compressedString) {
+        count.clear(); 
+        s = "";
+        curidx =0; 
+        
+        int ct =0; 
+        int ind=0; 
+        
+        if(!compressedString.size()) return; 
+        s += compressedString[0];
+                              
+     for(int i =1; i < compressedString.size(); i++)
+     {
+         char c = compressedString[i];
+         
+         if((c >='0') && (c <='9'))
+         {
+             ct = (ct*10); 
+             ct += (c-'0');
+         }
+         else
+         {
+             count.push_back(ct);
+             ct =0 ; 
+             s.push_back(c);
+         }
+     }
+      count.push_back(ct);
+        
+        
+//         for(auto a:count)
+//         {
+//             cout<<a<<',';
+//         }
+//         cout<<endl;
+        
+//         for(auto a:s)
+//         {
+//             cout<<a<<',';
+//         }
+//         cout<<endl;
+    }
+    
+    char next() {
+        if(hasNext())
+        {
+            if(count[curidx])
+            {
+                char c = s[curidx];
+                count[curidx]--;
+                if(count[curidx] <=0) 
+                    curidx++;
+                
+                return c;    
+            }
+            else
+            {
+                cout<<"error"<<endl;
+            }
+        }
+        
+       return ' ';
+    }
+    
+    bool hasNext() {
+        return (curidx !=  count.size());
+    }
+};
+
+/**
+ * Your StringIterator object will be instantiated and called as such:
+ * StringIterator obj = new StringIterator(compressedString);
+ * char param_1 = obj.next();
+ * bool param_2 = obj.hasNext();
+ */
