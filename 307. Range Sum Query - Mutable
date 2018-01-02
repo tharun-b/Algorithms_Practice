@@ -1,0 +1,145 @@
+
+class NumArray {
+public:
+    vector<int> tree; 
+    int n  = 0; 
+    int maxsize =0;
+    int upd =0; 
+    int sum =0; 
+    int construct(vector<int> &nums, int ss, int l, int r)
+    {
+             
+        if(l==r)
+        {
+            tree[ss] = nums[l];
+            return nums[l];
+        }
+        int mid = (l+r)/2; 
+        
+        int left = construct(nums, 2*ss+1, l, mid);
+        int right = construct(nums, 2*ss+2, mid+1, r);
+        tree[ss] = (left+right);
+        // cout<<tree[ss]<<"\t,";
+        return tree[ss];
+    }
+    
+    NumArray(vector<int> nums) {
+        n = nums.size(); 
+        if(n<1) return;
+        
+        maxsize = pow(2,ceil(log2(n))+1);
+        //cout<<maxsize<<endl;
+        
+        tree.clear(); 
+        tree.assign(maxsize,0);
+        
+        int sumtotal = construct(nums, 0,0, n-1);
+        //  for(auto a:tree)
+        // {
+        //     cout<<a<<",";
+        // }
+        // cout<<endl;
+        
+        
+    }
+    
+    int updateUtil(int val, int ss, int i, int l , int r)
+    {
+        if(!n) return 0; 
+        //cout<<tree[ss]<<"\t,";
+        
+        if((r>=n) ||(l<0)) return 0; 
+        if(ss>=maxsize) return 0; 
+
+        if((l==r) && (l ==i))
+        {
+            //cout<<tree[ss]<<" <- UPD\t,";
+            int err = val -tree[ss];
+            tree[ss] = val;
+            return err;
+        }
+        int mid = (l+r)/2; 
+        int err; 
+        if(i<=mid)
+           err =  updateUtil(val, 2*ss+1,i, l, mid);
+        else
+           err = updateUtil(val, 2*ss+2, i, mid+1, r);
+        
+        tree[ss] += err;
+        return err;
+    }
+    
+    void update(int i, int val) {
+        if(!n) return;
+        if((i>= n) || (i<0)) return; 
+
+        updateUtil(val, 0,i,0, n-1);
+               // cout<<endl;
+
+//          for(auto a:tree)
+//         {
+//             cout<<a<<",";
+//         }
+//         cout<<endl;
+        
+        // cout<<upd++<<")________UPDATE________"<<endl;
+        //  for(auto a:tree)
+        // {
+        //     cout<<a<<",";
+        // }
+        // cout<<endl;
+        
+    }
+    
+    int sumRange(int i, int j) {
+        if(!n) return 0; 
+        //cout<<endl;
+        // cout<<sum++ <<")________SUMRANGE________"<<endl;
+        // for(auto a:tree)
+        // {
+        //     cout<<a<<",";
+        // }
+        // cout<<endl;
+        
+        return Lookup(0,i,j,0,n-1);
+        
+        
+    }
+        
+    
+    int Lookup(int ss, int i, int j, int l , int r)
+    {
+
+        if((j<l) || (i>r)) return 0; 
+        
+        if((r>=n) ||(l<0)) return 0; 
+        if(ss>=maxsize) return 0; 
+
+        if((i<=l) && (r<=j)) return tree[ss];
+        
+        if((l==r))
+        {
+            //cout<<tree[ss]<<" <- RET\t,";
+            return tree[ss];
+        }
+        
+            int mid = (l+r)/2; 
+            int lsum =0, rsum  =0; 
+        
+           lsum  =  Lookup(2*ss+1,i,j, l, mid);
+           rsum = Lookup(2*ss+2,i,j, mid+1, r);
+            
+         // cout<<(lsum)<<"___"<<(rsum)<<"\t,";
+        
+       
+
+        return (lsum+rsum);
+    }
+};
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray obj = new NumArray(nums);
+ * obj.update(i,val);
+ * int param_2 = obj.sumRange(i,j);
+ */
