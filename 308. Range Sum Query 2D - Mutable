@@ -1,0 +1,227 @@
+struct tree {
+    long long sum =0; 
+    tree* lu = nullptr;
+    tree* ld = nullptr;
+    tree* ru = nullptr; 
+    tree* rd = nullptr; 
+};
+
+class NumMatrix {
+public:
+    tree *mainroot; 
+    int m =0; 
+    int n =0; 
+    
+    tree* construct(vector<vector<int>> &matrix, int l , int r, int u, int d)
+    {
+        
+        if(l>r) return nullptr; 
+        if(u>d) return nullptr; 
+        
+        tree *root = new tree;
+        
+        if((l==r) && (u==d)) 
+        {
+            root->sum = matrix[u][l];
+            return root; 
+        }
+
+        int midy = (u+d)/2;
+        int midx = (l+r)/2;
+        
+        long long local =0; 
+        tree *plu = construct(matrix, l, midx, u, midy);
+        if(plu) 
+        {
+            local+= plu->sum; 
+            root->lu = plu; 
+        }
+        tree *pld = construct(matrix, l, midx, midy+1, d);
+        if(pld) 
+        {
+            local+= pld->sum; 
+            root->ld = pld; 
+        }
+        tree *pru = construct(matrix, midx+1, r, u, midy);
+        if(pru) 
+        {
+            local+= pru->sum; 
+            root->ru = pru; 
+        }
+        tree *prd = construct(matrix, midx+1, r, midy+1, d);
+        if(prd) 
+        {
+            local+= prd->sum; 
+            root->rd = prd; 
+        }
+
+        root->sum = local; 
+        //cout<<root->sum<<" ";
+        return root;         
+    }
+    
+    int updateutil(tree* root, int val, int l , int r, int u, int d, int row, int col)
+    {
+        
+        if(l>r) return 0; 
+        if(u>d) return 0; 
+        if(!root) return 0; 
+        
+        if((l==r) && (u==d)) 
+        {
+            int diff = val - root->sum ;
+            root->sum = val;
+            return diff; 
+        }
+
+        int midy = (u+d)/2;
+        int midx = (l+r)/2;
+        
+        int local =0; 
+        if((row<=midy) && (col<=midx))
+        local = updateutil(root->lu, val, l, midx, u, midy, row, col);
+        
+        if((row>midy) && (col<=midx)) 
+        local = updateutil(root->ld, val, l, midx, midy+1, d, row, col);
+        
+        if((row<=midy) && (col>midx))
+        local = updateutil(root->ru, val, midx+1,r , u, midy, row, col);
+        
+        if((row>midy) && (col>midx))
+        local = updateutil(root->rd, val, midx+1,r, midy+1, d, row, col);
+       
+
+        root->sum += local; 
+        //cout<<root->sum<<" ";
+        return local;         
+    }
+    
+     bool isOverlapping(int &x1 , int &x2, int &y1, int &y2,int &row1, int &col1, int &row2, int &col2)
+    { /* checks if right side argguments points are inside*/ 
+         if(col1>x2) return false; 
+         if(col2<x2) return false; 
+         if(row1>y2) return false; 
+         if(row2<y1) return false; 
+         
+         return true; 
+    }
+    
+     bool isInside(int &x1 , int &x2, int &y1, int &y2,int &row1, int &col1, int &row2, int &col2)
+    { /*check if left is inside */
+         
+         
+         bool x1in = ((x1 >= col1) && (x1<= col2)); 
+         bool x2in = ((x2 >= col1) && (x2<= col2)); 
+         bool y1in = ((y1 >= row1) && (y1<= row2)); 
+         bool y2in = ((y2 >= row1) && (y2<= row2)); 
+         
+         return(y1in && y2in && x1in && x2in);
+       
+    }
+    
+    long long sumregionUtil(tree* root, int l , int r, int u, int d, int row1, int col1, int row2, int col2)
+    {
+        if(root == nullptr) return 0;        
+        if(l>r) return 0; 
+        if(u>d) return 0; 
+
+        bool isIn = isInside(l,r, u, d, row1, col1, row2, col2);
+        if(isIn) 
+        {
+            // cout<<l<<"-"<<r<<"-"<<u<<"-"<<d<<"\t\t"; 
+            // cout<<"<"<<root->sum<<">"<<" | "<<endl;
+            return root->sum; 
+        }
+        
+        bool isOlap = (isOverlapping(l,r, u, d, row1, col1, row2, col2)
+                       || isOverlapping(col1,col2, row1, row2, u, l, d, r));
+        
+        if(isOlap == false)
+        {
+           //cout<<l<<"-"<<r<<"-"<<u<<"-"<<d<<"\t false \t"; 
+            return 0; 
+        }
+        
+        if((l==r) && (u==d)) 
+        {
+          //  cout<<"\t"<<root->sum<<" | ";
+            return root->sum; 
+        }
+        
+        
+        long long local =0; 
+        int midy = (u+d)/2;
+        int midx = (l+r)/2;
+        
+        int luv = sumregionUtil(root->lu, l, midx, u, midy, row1, col1, row2, col2);
+        local+= luv;
+
+        int luv3 = sumregionUtil(root->ru, midx+1,r , u, midy, row1, col1, row2, col2);
+        local+= luv3;
+        
+        int luv2 = sumregionUtil(root->ld, l, midx, midy+1, d, row1, col1, row2, col2);      
+        local+= luv2;
+        
+        int luv4 = sumregionUtil(root->rd, midx+1,r, midy+1, d, row1, col1, row2, col2);
+        local+= luv4;
+        
+        
+        // cout<<luv<<"\t"<<luv3<<";\t"<<luv2<<"\t"<<luv4; 
+        // cout<<"\t"<<l<<"-"<<r<<"-"<<u<<"-"<<d<<"\t\t"; 
+        // cout<<"\t\t"<<local<<"<-total \t"<<endl;
+
+        return local;                 
+    }
+    
+   
+    
+    
+          
+    NumMatrix(vector<vector<int>> matrix) {
+      this->n = matrix.size(); 
+        if(n<1) return;
+        this->m = matrix[0].size(); 
+        if(m<1) return;
+        
+        this->mainroot = construct(matrix, 0, m-1, 0, n-1);
+        
+        // for(int i =0; i< n; i++)
+        // {
+        //     for(int j=0; j<m; j++)
+        //     {
+        //         cout<<sumRegion(0,0, i,j)<<",";
+        //     }
+        //     cout<<endl; 
+        // }
+        
+    }
+    
+    
+    void update(int row, int col, int val) {
+        if(m*n <0) return ; 
+       // cout<<endl;
+       // int prev = sumRegion(row, col, row, col);
+        int diff = updateutil(mainroot, val,  0, m-1, 0, n-1, row, col);
+      //  int cur = sumRegion(row, col, row, col);
+        
+        //if(cur != (prev+diff)) cout<<"error in updating"<<endl;
+        
+    }
+    
+    int sumRegion(int row1, int col1, int row2, int col2) {
+        if(m*n <0) return 0; 
+
+            return sumregionUtil(this->mainroot, 0,m-1,0,n-1,  row1,  col1,  row2,  col2);
+    }
+    
+    
+    
+    
+};
+
+/**
+ * Your NumMatrix object will be instantiated and called as such:
+ * NumMatrix obj = new NumMatrix(matrix);
+ * obj.update(row,col,val);
+ * int param_2 = obj.sumRegion(row1,col1,row2,col2);
+ */
