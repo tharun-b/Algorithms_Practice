@@ -1,0 +1,37 @@
+class Solution {
+public:
+    int change(int amount, vector<int>& coins) {
+        int n =coins.size();
+        if(n<1) return (amount ==0); 
+        if(amount<1) return 1; 
+        
+        unordered_map<int,int> map1; 
+        
+        int v = coins[0];
+        for(int i=0; ((i*v)<=amount); i++)
+        {
+            map1[i*v] =1;
+        }
+        
+        for(int i =1; i<n; i++)
+        {
+            unordered_map<int,int> maptemp; 
+            int v = coins[i];
+            
+            for(auto a: map1)
+            {
+                int curval = a.first;
+                int curcount = a.second; 
+                
+                for(int k=0;((k*v + curval)<=amount); k++)
+                {
+                    maptemp[k*v + curval] += curcount; 
+                }
+                
+            }
+            swap(maptemp,map1);
+        }
+        
+        return map1[amount];
+    }
+};
