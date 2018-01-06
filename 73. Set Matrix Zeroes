@@ -1,0 +1,54 @@
+class Solution {
+public:
+    void setZeroes(vector<vector<int>>& matrix) {
+        int n = matrix.size();
+        if(n<1) return ; 
+        int m = matrix[0].size();
+        if(m<1) return; 
+        
+        bool r0 = false;
+        bool c0 = false;
+
+        
+        for(int r =0; r<n; r++)
+        {
+             r0 = r0 || (matrix[r][0] ==0);
+        }
+         for(int c =0; c<m; c++)
+        {
+             c0 = c0 || (matrix[0][c] ==0);
+        }
+        
+        for(int r =1; r<n; r++)
+        {
+            for(int c = 1; c<m; c++)
+            {
+                if(matrix[r][c] ==0)
+                {
+                    matrix[r][0] =0; 
+                    matrix[0][c] =0; 
+                }
+            }
+        }
+        
+         for(int r =1; r<n; r++)
+        {
+            for(int c = 1; c<m; c++)
+            {
+                matrix[r][c] = ((matrix[r][0]!=0) * (matrix[0][c]!=0) * (matrix[r][c]));
+            }
+        }
+        
+        if(r0 ==true)
+        for(int r =0; r<n; r++)
+        {
+            matrix[r][0] = 0; 
+             
+        }
+        if(c0 == true)
+        for(int c =0; c<m; c++)
+        {
+             matrix[0][c] = 0; 
+        }
+    }
+};
