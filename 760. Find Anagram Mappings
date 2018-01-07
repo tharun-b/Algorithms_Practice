@@ -1,0 +1,23 @@
+class Solution {
+public:
+    vector<int> anagramMappings(vector<int>& A, vector<int>& B) {
+        
+        unordered_map<int,int> hash;
+        vector<int> result(A.size(), 0); 
+        
+        if(A.size()<1) return A; 
+        
+        for(int i =0; i< B.size(); i++)
+        {
+            hash[B[i]] = i;
+        }
+        
+        for(int i =0; i<A.size(); i++)
+        {
+            result[i] = hash[A[i]];
+        }
+        
+        return result; 
+        
+    }
+};
