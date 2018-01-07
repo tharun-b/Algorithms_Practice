@@ -1,0 +1,73 @@
+758. Bold Words in String
+
+class Solution {
+public:
+    string boldWords(vector<string>& words, string S) {
+        int ct = words.size(); 
+        if(ct<1) return S; 
+        
+        int n = S.size(); 
+        if(n<1) return S; 
+        
+        vector<bool> mask(n,0);
+        
+        for(auto a:words)
+        {            
+            size_t found = S.find(a);
+            while(found != string::npos)
+            {
+                fill(mask.begin()+found, mask.begin()+found+a.size(), 1);
+                found = S.find(a, found+1);
+            }
+        }
+        // for(auto a:mask)
+        // {
+        //     cout<<a<<",";
+        // }
+        string result = "";
+        int l =0; 
+        int j; 
+        for( j=1; j<S.size(); j++)
+        {
+           if(mask[j] != mask[j-1])
+           {
+               
+               if(mask[j-1]==1)
+               {
+                   result+= "<b>";
+               }
+               
+               result += S.substr(l,(j-l));
+               
+               if(mask[j-1]==1)
+               {
+                    result+= "</b>";
+               }
+               l = j; 
+           }
+            
+        
+            
+        }
+        
+         if(mask[j-1]==1)
+               {
+                   result+= "<b>";
+               }
+               
+               result += S.substr(l,(j-l));
+               
+               if(mask[j-1]==1)
+               {
+                    result+= "</b>";
+               }
+               l = j; 
+        
+    
+        return result; 
+        
+        
+        
+        
+    }
+};
