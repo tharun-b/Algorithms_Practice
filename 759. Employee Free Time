@@ -1,0 +1,45 @@
+/**
+ * Definition for an interval.
+ * struct Interval {
+ *     int start;
+ *     int end;
+ *     Interval() : start(0), end(0) {}
+ *     Interval(int s, int e) : start(s), end(e) {}
+ * };
+ */
+class Solution {
+public:
+    vector<Interval> employeeFreeTime(vector<vector<Interval>>& avails) {
+        int n = avails.size();
+        
+        map<int,int> hash;
+        
+        for(auto a: avails)
+        {
+            for(auto item:a)
+            {
+                hash[item.start] = max(item.end, hash[item.start]);
+            }
+        }
+        auto itr = hash.begin(); 
+        int prev_s = itr->first; 
+        int prev_e = itr->second; 
+        itr++; 
+        
+        vector<Interval> result; 
+        
+        for(; itr != hash.end(); itr++)
+        {
+            if(itr->first > prev_e)
+            {
+                result.push_back(Interval(prev_e,itr->first));
+
+            }
+            prev_e = max(itr->second,prev_e); 
+
+            
+        }
+        
+        return result;
+    }
+};
