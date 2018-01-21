@@ -1,0 +1,38 @@
+class Solution {
+public:
+    int maxChunksToSorted(vector<int>& arr) {
+        
+        int n = arr.size(); 
+        if(n<1) return 0;
+        
+        int chunksize = 0; 
+        int limit = n-1; 
+        int maxidx = limit; 
+        
+        int l =0; 
+        int r =0; 
+        for(int i = 0; i <= limit; i++)
+        {
+            if(ispermutation(arr, l, i))
+            {
+                chunksize++;
+                l = i+1; 
+            }
+        }
+        
+        return chunksize; 
+        
+    }
+    
+    
+    bool ispermutation(vector<int>& arr, int s , int e)
+    {
+        
+        for(int i = s; i<=e ; i++)
+        {
+            if((arr[i]>e) || (arr[i]<s))
+                return false; 
+        }
+        return true; 
+    }
+};
