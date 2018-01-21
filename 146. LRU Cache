@@ -1,0 +1,141 @@
+// class LRUCache {
+// public:
+//     LRUCache(int capacity) {
+        
+//     }
+    
+//     int get(int key) {
+        
+//     }
+    
+//     void put(int key, int value) {
+        
+//     }
+// };
+
+struct Node{
+   Node* next;
+   Node* prev;
+   int value;
+   int key;
+   Node(Node* p, Node* n, int k, int val):prev(p),next(n),key(k),value(val){};
+   Node(int k, int val):prev(NULL),next(NULL),key(k),value(val){};
+};
+
+class Cache{
+   
+   protected: 
+   unordered_map<int,Node*> mp; //map the key to the node in the linked list
+   int cp;  //capacity
+   Node* tail; // double linked list tail pointer
+   Node* head; // double linked list head pointer
+   virtual void put(int, int) = 0; //set function
+   virtual int get(int) = 0; //get function
+
+};
+
+class LRUCache: public Cache
+{
+public:
+    LRUCache(int c)
+    {
+        cp  = c; 
+    }
+    
+   void surface(int k)
+   {
+       if(mp[k] == head) return; 
+       
+       Node *oldp = mp[k]->prev; 
+       Node *newp = mp[k]->next;
+
+       if(oldp) oldp->next = newp; 
+       if(newp) newp->prev = oldp; 
+       auto ptr = mp[k];
+       
+       mp[k]->prev = NULL; 
+       mp[k]->next = head;
+       head->prev = ptr; 
+
+       if(mp[k] == tail) tail = oldp;
+       
+       head = mp[k];
+   
+   }
+    
+    void put(int k, int v)
+    {
+        if(mp.empty())
+        {
+            auto ptr = new Node(k,v);   
+            mp[k] = ptr;     
+            head = tail = ptr;
+        }
+        else
+        {
+            if(mp.count(k)>0) 
+            {
+                mp[k]->value = v; 
+            }
+            else
+            {
+                if(mp.size()>=cp)
+                {
+                    mp.erase(tail->key);
+                    mp[k] = tail; 
+                    tail->key = k;
+                    tail->value = v; 
+                }
+                else
+                {
+                    auto ptr = new Node(k,v);   
+                    mp[k] = ptr; 
+                    ptr->next = head; 
+                    head->prev = ptr; 
+                    head = ptr; 
+                }
+            }
+        }
+        surface(k);   
+        //printLL();
+        
+
+    }
+    void printLL()
+    {
+       auto ptr = head; 
+        while(ptr)
+        {
+        cout<<ptr->key<<"-"<<ptr->value<<"\t";
+        ptr = ptr->next;
+        }
+        cout<<endl;
+    }
+    int get(int k)
+    {
+        if(mp.count(k)<=0) 
+        {
+            return -1; 
+        }
+        else
+        {
+            surface(k);
+            //printLL();
+            return mp[k]->value;
+        }
+        
+        
+    }
+
+};
+
+
+
+
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache obj = new LRUCache(capacity);
+ * int param_1 = obj.get(key);
+ * obj.put(key,value);
+ */
