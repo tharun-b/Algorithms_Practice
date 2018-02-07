@@ -1,0 +1,19 @@
+class Solution {
+public:
+    bool canPermutePalindrome(string s) {
+        unordered_map <char, int> hash; 
+        for (auto a: s)
+        {
+            hash[a]++; 
+        }
+        int count =0; 
+
+        
+        for(auto itr:hash)
+        {
+            count+= (itr.second&1);
+        }
+        
+        return (count<2);
+    }
+};
