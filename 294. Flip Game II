@@ -1,0 +1,39 @@
+
+
+class Solution {
+    
+vector<string> generatePossibleNextMoves(string s) {
+        
+        vector<string> result;
+        int n = s.size(); 
+        for(int i = 0; i < (n-1) ; i++)
+        {
+            if(s[i] == '+' && s[i+1] == '+')
+            {
+                string temp = s; 
+                temp[i] = '-'; 
+                temp[i+1] = '-';
+                result.push_back(temp);
+            }
+        }
+        return result; 
+    }
+
+    
+public:
+    bool canWin(string s) {
+        
+        
+        vector<string> temp =  generatePossibleNextMoves(s);
+        if(temp.empty()) return false; 
+                
+        for(auto str: temp)
+        {
+            bool res = canWin(str); 
+            if(res == false) return true;             
+        }
+        
+        return false; 
+        
+    }
+};
