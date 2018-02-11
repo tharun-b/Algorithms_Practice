@@ -1,0 +1,43 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    void Inorder(TreeNode* root, int &curmin, int &prevval) {
+        if(root == NULL) return ; 
+        
+        
+        Inorder(root->left, curmin, prevval);
+        
+        
+        if(prevval != INT_MIN)
+        {
+            curmin = min(curmin, (root->val - prevval));
+        }
+        prevval = root->val; 
+        
+       
+       Inorder(root->right,  curmin, prevval);
+        
+
+        
+    }
+    
+    
+    int minDiffInBST(TreeNode* root) {
+        
+        int prev = INT_MIN;
+        int runmin =INT_MAX;
+       
+        Inorder(root, runmin, prev);
+          
+        return runmin;
+            
+    }
+};
