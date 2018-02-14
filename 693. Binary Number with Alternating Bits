@@ -1,0 +1,23 @@
+class Solution {
+public:
+    bool hasAlternatingBits(int n) {
+        bool ans = true; 
+        
+        bool rec =n&1;
+        n>>=1; 
+        
+        while(n)
+        {
+            bool last = (n&1);
+            if(last == rec)
+            {
+                return false; 
+            }
+            rec = !rec; 
+            
+            n>>=1; 
+        }
+        
+        return true; 
+    }
+};
