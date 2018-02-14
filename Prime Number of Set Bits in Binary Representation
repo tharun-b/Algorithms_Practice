@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int countBits(int l)
+    {
+        int ct =0; 
+        while(l)
+        {
+            ct += (l&1);
+            l>>= 1; 
+        }
+        return ct; 
+    }
+    int countPrimeSetBits(int L, int R) {
+        int a[33] = {0,0,1, 1,0,1, 0,1,0,0, 0,1,0, 1,0,0, 0,1,0,1, 0,0,0, 1,0,0, 0,0,0,1, 0,1,0};
+        int ans =0; 
+        for(int i = L ; i<= R; i++)
+        {
+            ans += a[countBits(i)];
+        }
+        
+        return ans; 
+    }
+};
