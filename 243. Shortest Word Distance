@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int shortestDistance(vector<string>& words, string word1, string word2) {
+      
+        int i =0; 
+        int n = words.size(); 
+        int res= n ; 
+        int left  = -n; 
+        int right = -n;
+        for(auto s:words)
+        {
+            if(s ==word1)
+            {
+                left = i;
+                res = min(i-right, res);
+                
+            }
+            if(s== word2)
+            {
+                right = i; 
+                res = min(i-left, res);
+            }
+            i++; 
+            
+
+        }
+        return res; 
+    }
+};
