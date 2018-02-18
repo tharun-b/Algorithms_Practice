@@ -1,0 +1,40 @@
+class Solution {
+public:
+    vector<string> letterCasePermutation(string S) {
+        vector<string> res;
+        res.push_back("");
+        
+        int n = S.size(); 
+        for(int i=0; i<n; i++)
+        {
+            char c = S[i];
+            
+            {
+                int k = res.size(); 
+                for(int j =0; j< k; j++)
+                {
+                    if((c >='0') && (c<='9'))
+                    {
+
+                        res[j].push_back((c));
+                        continue; 
+
+                    }
+                    
+                    string s1 = res[j];
+                    
+                    s1.push_back(toupper(c));
+                    res.push_back(s1);
+                    
+                    res[j].push_back(tolower(c));
+                }
+                
+                
+            }
+            
+            
+        }
+        
+        return res; 
+    }
+};
