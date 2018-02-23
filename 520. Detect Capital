@@ -1,0 +1,33 @@
+#define CAPS(a) ((a <= 'Z') && (a >= 'A'))
+#define SMALL(a) ((a <= 'z') && (a >= 'a'))
+class Solution {
+public:
+    bool detectCapitalUse(string word) {
+        int n = word.size(); 
+        if(n<2) return true; 
+
+        bool first = CAPS(word[0]);
+        bool second= CAPS(word[1]);
+        
+        
+        if((!first) && (second)) 
+            return false;
+        bool logi = (second);
+
+        for( int i =2; i < n  ; i++)
+        {
+            bool t = CAPS(word[i]); 
+            if(logi) 
+            { 
+                if(!t)  return false; 
+            }
+            else
+          {
+              if(t) return false; 
+          }
+
+        }
+        return true; 
+        
+    }
+};
