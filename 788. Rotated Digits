@@ -1,0 +1,39 @@
+class Solution {
+public:
+    bool isitGood(int n)
+    {
+        int o = n; 
+        bool entered= false; 
+        while(n)
+        {
+            int c = (n%10);
+            
+            if (!((c ==2 ) || (c ==5)|| (c ==6 ) ||(c ==9 ))) 
+            {
+                if (((c !=0) && (c !=1)&& (c !=8 ) )) 
+                {
+                    return false; 
+                }
+            }
+            else
+            {
+                entered = true; 
+            }
+            
+            n = n/10; 
+        }
+        return entered;
+        
+    }
+    int rotatedDigits(int N) {
+        int ct =0; 
+        
+        for(int i=1; i<=N; i++)
+        {
+            ct+= isitGood(i);
+            
+        }
+        return ct; 
+        
+    }
+};
