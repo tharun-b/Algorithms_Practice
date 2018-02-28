@@ -16,38 +16,24 @@ public:
         if(n==0)
         {
             qleft.push(num); 
-            n++;
-            return;
-        }
-       
-        double l = qleft.top(); 
-
-        if(n&1)
-        {
-            if(num <= l) {
-                qleft.push(num); 
-                int val = qleft.top();
-                qleft.pop(); 
-                qright.push(val); 
-            }
-            else
-            {
-                qright.push(num);
-            }
-            
         }
         else
         {
-            
-            if(num <= l) qleft.push(num); 
+       
+            if(n&1)
+            {
+                    qleft.push(num); 
+                    int val = qleft.top();
+                    qleft.pop(); 
+                    qright.push(val);    
+            }
             else
             {
-                qright.push(num);
-                int val = qright.top();
-                qright.pop(); 
-                qleft.push(val); 
+                    qright.push(num);
+                    int val = qright.top();
+                    qright.pop(); 
+                    qleft.push(val);
             }
-            
         }
         
         n++; 
