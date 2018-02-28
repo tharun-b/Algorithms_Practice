@@ -1,0 +1,78 @@
+class MedianFinder {
+public:
+    /** initialize your data structure here. */
+    priority_queue<int> qleft; 
+    priority_queue<int, vector<int>, greater<int>> qright; 
+    int n ; 
+    
+    
+    MedianFinder() {
+        n =0; 
+        
+    }
+    
+    void addNum(int num) {
+        
+        if(n==0)
+        {
+            qleft.push(num); 
+            n++;
+            return;
+        }
+       
+        double l = qleft.top(); 
+
+        if(n&1)
+        {
+            if(num <= l) {
+                qleft.push(num); 
+                int val = qleft.top();
+                qleft.pop(); 
+                qright.push(val); 
+            }
+            else
+            {
+                qright.push(num);
+            }
+            
+        }
+        else
+        {
+            
+            if(num <= l) qleft.push(num); 
+            else
+            {
+                qright.push(num);
+                int val = qright.top();
+                qright.pop(); 
+                qleft.push(val); 
+            }
+            
+        }
+        
+        n++; 
+     //   cout<<n<<"\t" ; 
+    }
+    
+    double findMedian() {
+        if(n<1) return 0; 
+        if(n&1) return qleft.top(); 
+        else
+        {
+            double l = qleft.top(); 
+            double r = qright.top();
+            //cout<<((l+r)/2)<<">>\t" ; 
+
+            return ((l+r)/2); 
+        }
+        
+        
+    }
+};
+
+/**
+ * Your MedianFinder object will be instantiated and called as such:
+ * MedianFinder obj = new MedianFinder();
+ * obj.addNum(num);
+ * double param_2 = obj.findMedian();
+ */
