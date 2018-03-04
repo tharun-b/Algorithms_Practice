@@ -1,0 +1,77 @@
+class Solution {
+public:
+    bool validTicTacToe(vector<string>& board) {
+        
+        int nx =0; 
+        int n0 =0; 
+        for(int i =0; i < 3; i++)
+        {    
+            for(int j=0; j<3; j++)
+            {
+                if(board[i][j] == 'X') 
+                    nx++; 
+                if(board[i][j] == 'O') 
+                    n0++;
+             }
+        }
+        
+        cout<<nx << n0<<endl; 
+        
+        if((nx<n0 ) || (nx>(n0+1))) return false; 
+        if((nx+n0) == 0) return true; 
+        
+        int ct =0; 
+        if((board[0][0] == board[1][0] ) && (board[1][0] == board[2][0] )  && (board[0][0] != ' ') ) ct++; 
+        if((board[0][1] == board[1][1] ) && (board[1][1] == board[2][1] )  && (board[0][1] != ' ') ) ct++; 
+        if((board[0][2] == board[1][2] ) && (board[1][2] == board[2][2] )  && (board[0][2] != ' ') ) ct++;
+        
+               // cout<<" 0"<<endl; 
+
+        if((board[0][0] == board[1][1] ) && (board[1][1] == board[2][2] )  && (board[0][0] != ' ') ) ct++;
+        if((board[0][2] == board[1][1] ) && (board[1][1] == board[2][0] )  && (board[0][2] != ' ') ) ct++;
+        
+               // cout<<" 1"<<endl; 
+
+        if((board[0][0] == board[0][1] ) && (board[0][1] == board[0][2] )  && (board[0][0] != ' ') ) ct++;
+        if((board[1][0] == board[1][1] ) && (board[1][1] == board[1][2] )  && (board[1][0] != ' ') ) ct++;
+        if((board[2][0] == board[2][1] ) && (board[2][1] == board[2][2] )  && (board[2][0] != ' ') ) ct++;
+        
+        
+        
+        
+        int oct = ct ; 
+        ct =0; 
+        
+        
+        if((board[0][0] == board[1][0] ) && (board[1][0] == board[2][0] )  && (board[0][0] == 'X') ) ct++; 
+        if((board[0][1] == board[1][1] ) && (board[1][1] == board[2][1] )  && (board[0][1] == 'X')) ct++; 
+        if((board[0][2] == board[1][2] ) && (board[1][2] == board[2][2] )  && (board[0][2] == 'X')) ct++;
+        
+               // cout<<" 01"<<endl; 
+
+        if((board[0][0] == board[1][1] ) && (board[1][1] == board[2][2] )  && (board[0][0] == 'X')) ct++;
+        if((board[0][2] == board[1][1] ) && (board[1][1] == board[2][0] )  && (board[0][2] == 'X')) ct++;
+        
+                //cout<<" 11"<<endl; 
+
+        if((board[0][0] == board[0][1] ) && (board[0][1] == board[0][2] )  && (board[0][0] == 'X') ) ct++;
+        if((board[1][0] == board[1][1] ) && (board[1][1] == board[1][2] ) && (board[1][0] == 'X')) ct++;
+        if((board[2][0] == board[2][1] ) && (board[2][1] == board[2][2] ) && (board[2][0] == 'X')) ct++;
+        
+        
+        
+        
+        if(oct > 1) return false; 
+        if(oct ==1)
+        {
+            if((ct ==1)  && (nx == n0)) return false; 
+            if((ct ==0) && (nx!= n0)) return false; 
+        }
+                
+               // cout<<" 2"<<endl; 
+        
+        
+        return true; 
+        
+    }
+};
