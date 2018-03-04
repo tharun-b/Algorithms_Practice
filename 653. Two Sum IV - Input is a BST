@@ -1,0 +1,31 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    unordered_set <int> hash; 
+    
+    bool DFS(TreeNode *root, int &k)
+    {
+        if(!root) return false; 
+        
+        
+        if(hash.find(root->val) != hash.end()) return true; 
+        else
+            hash.insert(k-root->val);
+        
+        return (DFS(root->left, k) || DFS(root->right, k));
+        
+    }
+    bool findTarget(TreeNode* root, int k) {
+        hash.clear(); 
+        return DFS(root, k); 
+        
+    }
+};
