@@ -1,0 +1,50 @@
+class Solution {
+public:
+    vector<string> findRelativeRanks(vector<int>& nums) {
+
+        map<int,int> hash; 
+        int n = nums.size(); 
+        
+        for(int i =0; i< nums.size(); i++)
+        {
+            hash[nums[i]] = i; 
+        }
+        
+        vector<string> output(n, ""); 
+        int i =1; 
+        
+        
+        
+        
+        
+        auto itr = hash.rbegin();
+        
+        if(itr == hash.rend())  return output; 
+        //cout<<itr->second<<endl; 
+            
+        output[itr->second] = "Gold Medal"  ;
+        itr++ ; i++; 
+        if(itr == hash.rend())    return output; 
+
+        output[itr->second] = "Silver Medal" ; 
+        itr++ ; i++; 
+        if(itr == hash.rend())   return output; 
+
+        output[itr->second] = "Bronze Medal" ; 
+        itr++ ; i++; 
+
+        
+        for(; itr != hash.rend(); itr++)
+        {
+            
+         output[itr->second] = to_string(i) ; 
+         i++; 
+        }
+        
+        
+        return output; 
+        
+        
+        
+    }
+};
