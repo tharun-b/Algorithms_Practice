@@ -1,0 +1,57 @@
+class Solution {
+public:
+    
+    bool isItSubS(string &S, string &t)
+    {
+        
+        if(S.size() < t.size()) return false; 
+        
+        int  j =0; 
+        for(int i =0; i < S.size(); i++)
+        {
+            char c = S[i];
+            
+            if(j == t.size()) return true; 
+            
+            if(c == t[j])
+            {
+                j++; 
+            }
+        }
+        
+        if(j == t.size())
+        {
+            return true; 
+        }
+        else
+        {
+            return false; 
+        }
+        
+    }
+    int numMatchingSubseq(string S, vector<string>& words) {
+        
+        
+        int count =0; 
+        unordered_map<string, int> hash; 
+        
+        for(auto a:words)
+        {
+            auto itr = hash.find(a); 
+            if( itr != hash.end())
+            {
+                count+= itr->second;
+            }
+            else
+            {
+                int res = isItSubS(S, a);
+                count+= res;
+                hash[a] = res; 
+            }
+        }
+        
+        return count; 
+        
+        
+    }
+};
