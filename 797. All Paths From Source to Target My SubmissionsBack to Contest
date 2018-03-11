@@ -1,0 +1,30 @@
+class Solution {
+public:
+    vector<vector<int>>  soln; 
+     void DFS(vector<vector<int>>& graph, vector<int> curpath, int node)
+        {
+            
+         curpath.push_back(node); 
+
+         if(node == (graph.size() -1)) soln.push_back(curpath); 
+         if(graph[node].size()<1) return; 
+         
+
+         for(int i=0; i< graph[node].size(); i++)
+         {
+             DFS(graph, curpath, graph[node][i]); 
+             
+         }
+       //  curpath.pop_back(); 
+
+        }
+    
+    vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) {
+       vector<int> path; 
+       DFS(graph, path, 0); 
+        
+        return soln; 
+    }
+};
+
+
