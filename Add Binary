@@ -1,0 +1,37 @@
+class Solution {
+public:
+    string addBinary(string a, string b) {
+        int n = a.size(); 
+        int m = b.size(); 
+        
+        if(n < 1) return b; 
+        if(m < 1) return a; 
+        
+        int l = n-1; 
+        int r = m-1; 
+        string res; 
+        int cain = 0; 
+        int maxl = (max(m,n)-1); 
+       // cout<<maxl; 
+        
+        for(int i = maxl; i>=0; i--)
+        {
+            
+            int lv = (l>=0)?(a[l]-'0'):0;
+            int rv = (r>=0)?(b[r]-'0'):0;
+            int tot = (lv +rv + cain); 
+            res.push_back('0'+ (tot&1));
+            cain = (tot>>1);
+            
+           // cout<< res<<endl; 
+            l--; 
+            r--;
+        }
+        
+       if(cain) res.push_back('1'); 
+       reverse(res.begin(), res.end());
+        
+        return res; 
+        
+     }
+};
