@@ -1,0 +1,35 @@
+class Solution {
+public:
+    vector<int> numberOfLines(vector<int>& widths, string S) {
+        
+       int count =1; 
+        
+        int n= S.size(); 
+        
+        if(n<1) return {}; 
+        
+        int cur =0; 
+        
+        for(int i = 0; i< S.size(); i++)
+        {
+            int ch = S[i];
+            int v = widths[ch-'a'] ; 
+            if(cur + v <= 100)
+            {
+                cur += v; 
+            }
+            else
+            {
+                count++; 
+                cur = v; 
+            }
+        }
+        
+        vector<int> ret; 
+        ret.push_back(count);
+        ret.push_back(cur); 
+        
+        return ret; 
+        
+    }
+};
