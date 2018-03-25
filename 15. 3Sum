@@ -1,0 +1,65 @@
+class Solution {
+public:
+    bool checksimilar(vector<int>&add, vector<vector<int>> &matrix)
+    {
+        int n = matrix.size(); 
+        if(n<1) return false; 
+        
+        for(int i =0 ; i< n; i++)
+        {
+           if((matrix[i][0] == add[0])&&(matrix[i][1] == add[1]))
+           return true; 
+        }
+        return false; 
+    }
+    
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        
+        unordered_set<int> hash;
+        vector<vector<int>> ret; 
+        unordered_set<long long> unique; 
+
+        sort(nums.begin(), nums.end()); 
+        
+        int prev = INT_MAX;  
+        
+        for(int i =0; i< nums.size(); i++)
+        {
+            if(prev == nums[i]) continue; 
+            prev = nums[i]; 
+            
+            int chec = -nums[i];
+            
+            hash.clear();
+            
+            for(int j =i+1; j< nums.size(); j++)
+            {
+                if(hash.count(chec-nums[j]) > 0 )
+                {
+                       
+                    int l=  nums[i];
+                    int r = max(chec-nums[j], nums[j]);
+
+                    long long v = (((long long)l)<<32)  + r;
+                   // cout<< unique.count(v)<< " \t"<<v<<endl; 
+
+                    if(unique.count(v) == 0)
+                    {
+                      
+                       // cout<< unique.count(v)<< " \t"<<v<<endl; 
+
+                        unique.insert(v); 
+                        ret.push_back({nums[i],chec-nums[j],nums[j]});
+                    }                    
+                }
+                
+                hash.insert(nums[j]);
+                
+            }
+            
+        }
+        
+        return ret; 
+        
+    }
+};
