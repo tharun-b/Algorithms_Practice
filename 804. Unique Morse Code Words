@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int uniqueMorseRepresentations(vector<string>& words) {
+        unordered_set<string> hash; 
+        
+        vector<string> code = {".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",
+                               ".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."}; 
+        
+        for(auto w:words)
+        {
+            
+            string s = ""; 
+            
+            for(auto ch:w)
+            {
+                s+= code[ch-'a'];                
+            }
+            cout<<s<<endl; 
+            hash.insert(s); 
+        }
+        
+        
+        return hash.size();
+        
+    }
+};
