@@ -1,0 +1,32 @@
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        vector<vector<string>> res; 
+        
+        int n = strs.size(); 
+        
+        if(n<1) return res; 
+        unordered_map<string, int> hash; 
+        
+        
+        for(int i =0; i< n; i++)
+        {
+            string s = strs[i]; 
+            sort(s.begin(), s.end()); 
+            
+            auto itr = hash.find(s); 
+            if(itr!= hash.end())
+            {
+                res[itr->second].push_back(strs[i]); 
+            }
+            else
+            {
+                hash[s] = res.size(); 
+                res.push_back(vector<string> (1, strs[i]));
+            }
+        }
+        
+        return res; 
+        
+    }
+};
