@@ -1,0 +1,48 @@
+class Solution {
+public:
+    string process(string s)
+    {
+        string res; 
+        if(s.size()<1) return s; 
+        int k = (s[0]-'a');
+        
+        
+        for(auto a:s)
+        {
+            res.push_back((a-k+26)%26); 
+        }
+        return res; 
+    }
+    vector<vector<string>> groupStrings(vector<string>& strings) {
+        
+        int n = strings.size(); 
+        if(n<1) return {};
+        unordered_map<string, int> hash; 
+        vector<vector<string>>  result; 
+              
+        for(int i =0; i< n ;i++)
+        {
+            if(strings[i].size()<1) 
+            {
+                if(result.empty()) result = {{strings[i]}};
+                else result[0].push_back(strings[i]);
+                continue; 
+            }
+            string res = process(strings[i]);
+            
+            auto itr = hash.find(res);
+            if(itr!= hash.end())
+            {
+                result[itr->second].push_back(strings[i]);
+              
+            }
+            else
+            {
+                hash[res] = result.size(); 
+                result.push_back(vector<string> (1, strings[i]));
+            }
+        }
+        return result; 
+        
+    }
+};
