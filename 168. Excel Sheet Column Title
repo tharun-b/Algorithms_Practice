@@ -1,0 +1,15 @@
+class Solution {
+public:
+    string convertToTitle(int n) {
+        if(n<1) return "";
+        string s = ""; 
+        int a = n; 
+        while(a)
+        {
+            s+= ('A' + ((a-1)%26));
+            a = (a-1)/26; 
+        }
+        reverse(s.begin(), s.end()); 
+        return s; 
+    }
+};
