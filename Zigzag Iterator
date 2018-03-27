@@ -1,0 +1,48 @@
+class ZigzagIterator {
+    int cur = 0; 
+    vector<int> *vec[2];  
+    int i[2] = {0,0}; 
+    
+public:
+    ZigzagIterator(vector<int>& v1, vector<int>& v2) {
+        vec[0] = &v1; 
+        vec[1] = &v2; 
+        i[0] =0; 
+        i[1] = 0; 
+    }
+
+    int next() {
+        int ind = i[cur]; 
+        
+        int v  =  (*vec[cur])[ind]; 
+        i[cur]++; 
+        cur = !cur; 
+        
+       // cout<<v<<"\t";
+        return v; 
+        
+    }
+
+    bool hasNext() {
+        if((i[cur] >= (*vec[cur]).size()) && (i[cur] >= (*vec[1-cur]).size())) return false ;  
+            
+        if((i[cur] < (*vec[cur]).size())) 
+            return true; 
+        else
+        {
+            cur = !cur; 
+            if(i[cur] < (*vec[cur]).size())
+            {
+                return true; 
+            }
+            else
+                return false;
+        }
+    }
+};
+
+/**
+ * Your ZigzagIterator object will be instantiated and called as such:
+ * ZigzagIterator i(v1, v2);
+ * while (i.hasNext()) cout << i.next();
+ */
