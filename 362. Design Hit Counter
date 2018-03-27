@@ -1,0 +1,49 @@
+class HitCounter {
+public:
+    deque<int> ar;
+    /** Initialize your data structure here. */
+    HitCounter() {
+        ar.clear();
+    }
+    
+    /** Record a hit.
+        @param timestamp - The current timestamp (in seconds granularity). */
+    void hit(int timestamp) {
+        
+        ar.push_back(timestamp); 
+        //getHits(int timestamp)
+        
+    }
+    
+    /** Return the number of hits in the past 5 minutes.
+        @param timestamp - The current timestamp (in seconds granularity). */
+    int getHits(int timestamp) {
+        
+        if(ar.empty()) return 0; 
+        
+        int v = timestamp -300; 
+        
+        if(ar.back() <= v) 
+        {
+            ar.clear(); 
+            return 0; 
+        }
+        
+        auto itfind = upper_bound(ar.begin(), ar.end(), v); 
+        
+        if(itfind != ar.end())
+        {
+            ar.erase(ar.begin(), itfind); 
+        }
+        
+        return ar.size(); 
+        
+    }
+};
+
+/**
+ * Your HitCounter object will be instantiated and called as such:
+ * HitCounter obj = new HitCounter();
+ * obj.hit(timestamp);
+ * int param_2 = obj.getHits(timestamp);
+ */
