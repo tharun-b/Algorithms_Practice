@@ -1,0 +1,55 @@
+class TwoSum {
+    multiset<int> hash; 
+public:
+    /** Initialize your data structure here. */
+    TwoSum() {
+        hash.clear(); 
+    }
+    
+    /** Add the number to an internal data structure.. */
+    void add(int number) {
+        hash.insert(number); 
+        cout<<hash.size(); 
+    }
+    
+    /** Find if there exists any pair of numbers which sum is equal to the value. */
+    bool find(int value) {
+        if(hash.size()<2) return false; 
+         
+        //cout<<" "<<hash.size()<<" "<<value<<endl; 
+
+        auto it = hash.begin();
+        auto rit = hash.rbegin(); 
+        
+        while(it != hash.end() && rit!= hash.rend())
+        {
+            if((&(*rit)) == (&(*it))) return false;
+            
+            int cursum = (*it + *rit); 
+           // cout<<cursum<<"\t"; 
+            if(value == cursum) 
+                return true; 
+            
+            if(value < cursum )
+            {
+                //cout<<(*rit)<<endl;
+                rit++; 
+            }
+            else
+            {
+                it++; 
+            }
+        }
+        
+
+        
+        return false; 
+    }
+};
+
+/**
+ * Your TwoSum object will be instantiated and called as such:
+ * TwoSum obj = new TwoSum();
+ * obj.add(number);
+ * bool param_2 = obj.find(value);
+ */
