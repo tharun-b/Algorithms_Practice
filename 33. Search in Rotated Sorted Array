@@ -1,0 +1,56 @@
+class Solution {
+public:
+     int binsearch(vector<int>& nums, int target, int low, int high, int n)
+     {   
+         if(low > high) return -1; 
+         
+         if(nums[low%n] > target) return -1; 
+         if(nums[high%n] < target) return -1; 
+         
+         if(low == high)
+         {
+             int t = low%n; 
+             if(nums[t] ==  target) 
+                 return t;
+             else
+                 return -1; 
+         }
+          
+        
+         
+         int mid = (low + high)/2; 
+         
+         int v = nums[(mid)%n]; 
+         if(v < target)
+             return binsearch(nums, target, mid+1, high, n);
+         else
+         {
+            if(v == target) 
+                 return (mid%n); 
+            else  
+             return binsearch(nums, target, low, mid-1, n); 
+         }
+        //dummy
+         return -1; 
+         
+         
+     }
+         
+    int search(vector<int>& nums, int target) {
+        int n = nums.size(); 
+        if(n<1) return -1; 
+        int prev = nums[n-1];
+        
+        int pivot = 0; 
+        for(int i = 0; i< n; i++)
+        {
+            if(nums[i] < prev) pivot = i; 
+            prev = nums[i]; 
+        }
+    
+        
+        return binsearch(nums, target, pivot, (pivot + n-1), n); 
+        
+        
+    }
+};
