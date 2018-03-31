@@ -1,0 +1,77 @@
+class Solution {
+public:
+    int numberOfArithmeticSlices(vector<int>& A) {
+        
+        int n = A.size(); 
+        if(n<3) return 0; 
+        
+        //vector<int> ans(n,0); 
+        //vector<int> hist(n,0); 
+        
+        int t_2 =0; 
+        int t_1 =0; 
+        
+        if((A[0]-A[1]) == (A[1]-A[2])) 
+        {
+            t_1 = 1;
+            //hist[3] = 1; 
+        }
+        
+        
+        
+        for(int i =3; i <n ; i++)
+        {
+            int temp = t_1; 
+            if((A[i]-A[i-1]) == (A[i-1]-A[i-2]))
+            {
+                t_1 =  (t_1<<1) - t_2 + 1; 
+            }
+            else
+            {
+                t_1 = t_1; 
+            }       
+            t_2 = temp; 
+        }
+        
+        return t_1; 
+        
+    }
+};
+
+/* 
+1 2 3 (1)
+
+
+
+1 2 3  + 4 
+123 234 1234   (3)
+
+
+1 2 3 4 + 5
+
+123 
+234 
+1234 
+
+2345 
+12345
+
+345 
+
+
+123
+1
+
+1 2 3 5 
+
+1
+
+1 2 3 5 7 
+
+2
+
+
+
+
+
+*/
