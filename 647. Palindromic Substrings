@@ -1,0 +1,42 @@
+class Solution {
+public:
+    int countSubstrings(string s) {
+        int n   = s.size(); 
+        if(n<1) return 0; 
+        vector<vector<bool>> table(n, vector<bool> (n,0));
+        
+        // for(int i = 0 ; i < n; i++)
+        // {
+        //     table[0][i] =1;
+        // }
+        
+        table[0] = vector<bool> (n,1); 
+        
+        int count = n; 
+            for(int l = 1 ; l < n; l++)
+            {
+                for(int i = l; i < n ; i++)
+                {
+                    
+                    if(l == 1)  
+                    {
+                        if(table[1][i] = (s[i] == s[i-1]))
+                            count+= table[1][i] ; 
+
+                    }
+                    else
+                    {
+                    table[l][i] = ((s[i] == s[i-l]) && (table[l-2][i-1]));
+                        
+                        count+= table[l][i] ; 
+                    }
+                }
+                
+                
+            }
+        
+        return count; 
+        
+        
+    }
+};
