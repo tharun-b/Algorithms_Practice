@@ -1,0 +1,86 @@
+class Solution {
+public:
+    bool unitdistance(string &s, string &t)
+    {
+        int count = 0; 
+        for(int i =0; i < s.size(); i++)
+        {
+            count += (s[i] != t[i]); 
+            if(count>1) return 0; 
+        }
+        
+        return count; 
+    }
+    
+    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+        
+        if((beginWord == endWord)) return 1;
+        int n = wordList.size(); 
+
+        if(n < 1) return 0; 
+        
+        vector<vector<int>> edge(n , vector<int>()); 
+        vector<int> distance(n,INT_MAX); 
+        
+        queue<int> que; 
+        int end = -1; 
+        
+        
+        for(int i =0; i <n ; i++)
+        {
+            if(wordList[i] == endWord)
+            {
+                end = i; 
+            }
+                
+            if(unitdistance(beginWord, wordList[i]))
+            {
+                 if(wordList[i] == endWord) return 2; 
+
+                que.push(i); 
+                distance[i]  = 2; 
+            }
+            
+            for(int j = i+1; j < n; j++)
+            {
+                if(unitdistance (wordList[i], wordList[j]))
+                {
+                    edge[i].push_back(j); 
+                    edge[j].push_back(i);
+                }
+                
+                
+            }
+          
+        }
+        
+        if(end < 0) return 0; 
+        
+        while(!que.empty())
+        {
+            int cur =  que.front(); 
+            
+            que.pop(); 
+            
+            int curd = distance[cur]; 
+                 
+            //if(wordList[i] == endWord) return curd; 
+
+            
+            for(int w:edge[cur])
+            {
+                if(distance[w] == INT_MAX) 
+                    que.push(w); 
+
+                    distance[w] = min(curd+1, distance[w]);                 
+            }
+        }
+        
+        // for(auto c:distance) cout<< c<<"\t";
+        // cout <<endl; 
+        
+        
+        return (distance[end] == INT_MAX)? 0: distance[end]; 
+        // hit" -> "hot" -> "dot" -> "dog" -> "cog"
+    }
+};
