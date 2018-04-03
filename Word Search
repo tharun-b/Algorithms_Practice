@@ -1,0 +1,66 @@
+class Solution {
+public:
+    bool search(vector<vector<char>>& board, string word, int cur, int r, int c, vector<vector<bool> > & visited) 
+    {
+        if(cur == (word.size()))  return true;
+        
+        if((r >= board.size()) || (r<0))  return false; 
+        if((c >= board[0].size()) || (c<0))  return false; 
+
+        
+        if(visited[r][c] == true) return false; 
+        visited[r][c] = 1; 
+
+        
+            if(board[r][c] != word[cur] ) 
+            {
+                visited[r][c] = false; 
+                return false; 
+            }
+        
+           // cout<<"r"<<r<<"c"<<c<<"->"<<word[cur]<<"\t"; 
+
+            bool logic =  search( board,  word,  cur+1, r+1,  c, visited ); 
+            if(logic) return true; 
+        
+             logic = search( board,  word,   cur+1, r-1,  c, visited );
+            if(logic) return true; 
+
+             logic = search( board,  word,   cur+1, r,  c+1, visited );
+            if(logic) return true; 
+
+             logic = search( board,  word,   cur+1, r,  c-1, visited ); 
+            if(logic) return true; 
+
+        
+        visited[r][c] = false; 
+        
+        return logic; 
+        
+    }
+    bool exist(vector<vector<char>>& board, string word) {
+        
+        
+        int l = word.size(); 
+        if(l<1) return false; 
+        
+        int n = board.size(); 
+        if(n<1) return 0; 
+        
+        int m = board[0].size(); 
+        
+        for(int r = 0; r < n; r++)
+        {
+            for(int c = 0; c < m ; c++)
+            {
+                vector<vector<bool>> visited (n,vector<bool>(m,0)); 
+                        //cout<<"\n"<<"r"<<r<<"c"<<c<<"\n"; 
+
+                   if(search( board,  word,  0, r,  c, visited )) 
+                       return true;                 
+            }
+        }
+        return false; 
+        
+    }
+};
