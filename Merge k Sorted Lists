@@ -1,0 +1,109 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* getNext(int ref, ListNode* cur)
+    {
+        if(!cur) return NULL; 
+        
+        ListNode* ptr = cur; 
+        ListNode* temp = ptr;         
+        while(ptr)
+        {
+            if(ptr->val > ref)
+                break; 
+            
+           temp = ptr; 
+           ptr= ptr->next; 
+
+        }
+        
+        return temp; 
+    }
+    
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        
+        
+        int n = lists.size(); 
+        if(n<1) return NULL; 
+        if(n<2) return lists[0]; 
+        
+        vector<int> status(n,0);
+        multimap<int, int> hash;
+        
+        vector<ListNode*> curptr(n, NULL); 
+        
+        ListNode *head = NULL; 
+        
+        for(int i =0; i< n; i++)
+        {            
+            if(lists[i] == NULL) 
+            {
+                status[i] = -1; 
+            }
+            else
+            {
+              hash.insert(make_pair(lists[i]->val,  i));  
+               // cout<<"\t"<<i<<","<<lists[i]->val<<"\t";
+              curptr[i] = lists[i]; 
+            }
+        }
+        int flag =0; 
+        
+        
+        ListNode *curloc = NULL; 
+        ListNode *prev = head;
+        
+         while(!hash.empty())
+         {
+             
+             auto t = hash.begin(); 
+             
+             int val = t->first; 
+             int ind = t->second; 
+              
+             curloc = curptr[ind]; 
+             if(flag ==0)   
+             {
+                 head = curloc; 
+                 flag++; 
+             }
+             else
+             {
+                 prev->next = curloc;  
+             }
+                 
+             prev = curloc; 
+
+             hash.erase(t); 
+
+            
+                ListNode* res =  getNext(hash.begin()->first, prev);
+                    
+                prev = res; 
+             
+                curptr[ind] = res->next;
+                     
+                 if(curptr[ind]) 
+                 {
+                     hash.insert(make_pair(res->next->val, ind));  
+                   //  cout<<"\t"<<ind<<","<<(prev->val)<<"\t";
+                 }
+
+             
+             
+         }
+        
+        if(prev)
+        prev->next = NULL; 
+        
+        return head; 
+
+    }
+};
