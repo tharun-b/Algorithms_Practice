@@ -1,0 +1,43 @@
+class Solution {
+public:
+    double distance( vector<int> &p1, vector<int> &p2)
+    {
+        double x =  (p1[0] -p2[0]);
+        double y = (p1[1] -p2[1]); 
+        return (x*x + y*y); 
+    }
+    double largestTriangleArea(vector<vector<int>>& points) {
+        
+        int n = points.size(); 
+        if(n < 3) return 0; 
+        
+        int p1 =0; 
+        int p2 =1;
+        double m =0; 
+
+        for(int i =0; i < n; i++)
+        {
+            for (int j =i+1; j< n; j++)
+            {
+                double a = points[j][1] - points[i][1];  
+                 double b = points[i][0] -points[j][0];  
+                 double c =  - a *  points[i][0] - b * points[i][1] ;
+                
+                for(int k =j+1; k < n; k++)
+                {
+
+                    double res = 0.5 * fabs(a * points[k][0] +  b* points[k][1] +  c );
+                    //cout<<res<<"\t"; 
+                    if(m <  res)
+                    {
+                        m = res; 
+                    }
+                }
+            }
+        }
+        
+        
+        
+        return m; 
+    }
+};
