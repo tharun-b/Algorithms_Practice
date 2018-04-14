@@ -1,0 +1,41 @@
+class Solution {
+public:
+    void reverserange(string&s, int l, int r)
+    {
+        
+        for(int i =l, j = r-1; i<j; i++, j--)
+        {
+            char c = s[i];
+            s[i] = s[j];
+            s[j] = c; 
+        }
+        
+        
+    }
+    string reverseStr(string s, int k) {
+        
+        int n = s.size(); 
+        if(n<1) return "";
+        
+        int i =0; 
+        while((n-i)> (2*k))
+        {
+            
+            reverserange(s, i, i+k); 
+            
+            i+= 2*k; 
+        }
+        
+        if((n-i) < k)
+        {
+            reverserange(s,i,n);
+        }
+        else
+        {
+            reverserange(s,i,i+k);
+        }
+        
+    
+        return s; 
+    }
+};
