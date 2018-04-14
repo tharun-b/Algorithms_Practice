@@ -1,0 +1,57 @@
+/*
+// Employee info
+class Employee {
+public:
+    // It's the unique ID of each node.
+    // unique id of this employee
+    int id;
+    // the importance value of this employee
+    int importance;
+    // the id of direct subordinates
+    vector<int> subordinates;
+};
+*/
+class Solution {
+public:
+    int DFS(vector<Employee*> employees, int id, unordered_map<int,int> &hash )
+    {
+        int curidx = hash[id]; 
+        int count = employees[curidx]->importance; 
+        
+        for(auto c: employees[curidx]->subordinates)
+        {
+            count += DFS(employees, c,hash ); 
+        }
+        return count; 
+
+    }
+    
+    int getImportance(vector<Employee*> employees, int id) {
+        
+        int n = employees.size(); 
+        if(n<1) return 0; 
+        
+        int tot = 0; 
+        
+        unordered_map<int,int> hash; 
+        
+        
+        for(int i =0; i<n; i++)
+        {
+            
+            if(!employees[i])  continue; 
+            
+            int curid = employees[i]->id; 
+            hash[curid] = i; 
+            
+        }
+        
+        
+        return DFS(employees, id, hash);
+        
+        
+        
+    }
+    
+    
+};
