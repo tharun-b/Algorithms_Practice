@@ -1,0 +1,83 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode *prevnode = NULL; 
+    
+   TreeNode* DFSincreasing(TreeNode* root)
+    {
+        if(!root) return NULL; 
+       
+       auto l = DFSincreasing(root->left);
+       
+       if(l) return l; 
+       
+           if(prevnode)
+           if(prevnode->val > root->val)
+           {
+              // cout<<prevnode->val<<" ++ \t"; 
+               return prevnode; 
+           }
+           prevnode = root;
+       
+        
+       auto r = DFSincreasing(root->right);
+       if(r) return r;      
+       
+       return NULL; 
+    }
+    
+    
+       TreeNode* DFSdecreasing(TreeNode* root)
+    {
+        if(!root) return NULL; 
+       
+           auto r = DFSdecreasing(root->right);
+           if(r) return r;  
+      
+       
+           if(prevnode)
+           if(prevnode->val < root->val)
+           {
+               //cout<<prevnode->val<<" -- \t"; 
+               return prevnode; 
+           }
+           prevnode = root;
+       
+             auto l = DFSdecreasing(root->left);
+             if(l) return l; 
+
+           return NULL; 
+       
+    }
+    
+    
+    
+    void recoverTree(TreeNode* root) {
+        
+      prevnode = NULL; 
+        
+        auto a = DFSincreasing(root);
+        
+        prevnode = NULL; 
+        
+        auto b = DFSdecreasing(root);
+        //cout<<endl<<"a"<<(a== NULL) <<" b"<<(b== NULL)<<endl;
+        if( a!= NULL && b!= NULL)
+        {
+           // cout<<endl<<"a"<<a->val<<" b"<<b->val;
+            int t = a->val ;
+            a->val = b->val ;
+            b->val = t; 
+        }
+        
+        
+    }
+};
