@@ -1,0 +1,19 @@
+class Solution {
+public:
+    char nextGreatestLetter(vector<char>& letters, char target) {
+        
+        int m = 25; 
+                    int tar = target-'a';
+
+        for(auto c:letters)
+        {
+            int cur = c-'a';
+            if(cur == tar) continue; 
+            
+           m =  min(m , ((cur+26-tar)%26));        
+            
+        }
+        
+        return ('a' + (tar+m)%26) ; 
+    }
+};
