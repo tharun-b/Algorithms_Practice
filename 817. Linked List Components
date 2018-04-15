@@ -1,0 +1,57 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int numComponents(ListNode* head, vector<int>& G) {
+        
+        if(!head) return 0; 
+        
+        if(G.size() <1) return 0; 
+        
+        unordered_set<int> hash; 
+        
+        for(auto c: G)
+        {
+            hash.insert(c);
+        }
+        
+        
+        bool l = false;  
+        int count = 0; 
+        
+           // 0,1,2,3
+                
+                //0,1,3,
+            auto ptr = head; 
+        
+            while(ptr)
+            {
+                if(hash.count((ptr->val)) > 0)
+                {
+                    l = true; 
+                }
+                else
+                {
+                    if(l == true)
+                        count++; 
+                    
+                    l = false; 
+                }
+                
+                
+                ptr = ptr->next; 
+            }
+        
+            if(l==true) count++; 
+        
+        
+        return count; 
+        
+    }
+};
