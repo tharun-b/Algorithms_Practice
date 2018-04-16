@@ -1,0 +1,75 @@
+class Solution {
+public:
+    int leastBricks(vector<vector<int>>& wall) {
+        
+        int n = wall.size(); 
+        
+        if(n<1) return 0; 
+        
+        int totsum =INT_MAX; 
+        
+        multimap<int, int> hash;  
+        
+        vector<int> lookup (n,0); 
+        
+        for(int i =0; i< n; i++ )
+        {
+            hash.insert(make_pair(wall[i][0], i)); 
+        }
+        
+        int bestcount = 0; 
+        
+        while(!hash.empty())
+        {
+
+            
+            auto itr = hash.begin(); 
+            int curval = itr->first; 
+            int count =0; 
+            
+
+            while((!hash.empty()) && (hash.begin()->first == curval) )
+            {
+
+                //cout<< curval<<" )\t";
+
+                itr = hash.begin();
+                
+                int cur =itr->first; 
+                int r = itr->second; 
+                int idx = lookup[r]; 
+                //cout<< r<<"<-r,idx->"<<idx<<"\tval = "<<itr->first; 
+                
+                if(idx >= wall[r].size())
+                {
+                    return (n-bestcount); 
+                }
+                                    
+                hash.erase(itr);   
+                
+                hash.insert(make_pair(cur + wall[r][idx+1],r));
+                lookup[r] = idx+1; 
+                
+        
+                count++;  
+                //cout<<"\tcount++"<<count<<endl;                 
+                
+            }
+            
+            if((count > bestcount))
+            {
+                auto r = (hash.begin()->second );
+                if(lookup[r] >= wall[r].size()) break; 
+
+                bestcount = count; 
+                //cout<<"+++++++++++ BEST "<<" \t"<<bestcount<<endl; 
+
+            }
+            
+        }
+        
+        return (n-bestcount); 
+        
+        
+    }
+};
