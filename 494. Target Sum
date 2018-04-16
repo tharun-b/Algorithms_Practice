@@ -1,0 +1,50 @@
+class Solution {
+public:
+    
+    int DFS(vector<int>& nums, int S, int l, vector<unordered_map<int,int> > &hash)
+    {
+        
+        if(l==0) 
+        {
+            return ((nums[l] == S) + (nums[l] == -S));
+        }
+            
+        int neg = 0; 
+        if(hash[l-1].count(S-nums[l]) >0)
+        {
+            neg = hash[l-1][S-nums[l]]; 
+        }
+        else
+        {
+             neg = DFS(nums, S-nums[l], l-1,hash);
+        }
+        
+        int pos = 0; 
+        if(hash[l-1].count(S+nums[l]) >0)
+        {
+           pos = hash[l-1][S+nums[l]];
+        }
+        else
+        {
+            pos = DFS(nums, S+nums[l], l-1,hash);
+        }
+        
+        hash[l][S] += (neg+pos); 
+        
+        return hash[l][S];
+        
+    }
+    
+    int findTargetSumWays(vector<int>& nums, int S) {
+        
+        int n = nums.size(); 
+        if(n<1) return 0; 
+        
+        vector<unordered_map<int,int>> hash (n,unordered_map<int,int>() ) ;
+        
+        
+        
+        return DFS(nums, S,  n-1,hash); 
+        
+    }
+};
