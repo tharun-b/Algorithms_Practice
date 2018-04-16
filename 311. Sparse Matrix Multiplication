@@ -1,0 +1,45 @@
+class Solution {
+public:
+    vector<vector<int>> multiply(vector<vector<int>>& A, vector<vector<int>>& B) {
+        
+        
+        int m = A.size(); 
+        if(m<1) return {};
+        
+        int n = A[0].size(); 
+        if(n<1) return {{}}; 
+        
+        int p = B[0].size(); 
+        if(p<1) return {{}}; 
+        
+        
+        vector<vector<int>> result(m, vector<int> (p,0)); 
+        
+        
+        for(int i =0; i< m ; i++)
+        {
+
+            for( int j =0; j< n; j++)
+            {
+                
+                int cur = A[i][j];
+                if(!cur) continue; 
+                
+                for( int k =0; k<p; k++)
+                {
+                    int sec = B[j][k]; 
+                    
+                    if(!sec) continue; 
+                    
+                    result[i][k] += (cur *  sec); 
+                    
+                    
+                }
+            }
+        }
+        
+        return result; 
+        
+        
+    }
+};
