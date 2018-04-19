@@ -1,0 +1,48 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int secmin = INT_MAX; 
+    int firstmin = INT_MAX; 
+    int findSecondMinimumValue(TreeNode* root) {
+        
+        if(!root) return -1; 
+        if(!root->left) return -1; 
+        
+        firstmin = root->val; 
+        traverse(root); 
+        
+        return (secmin == INT_MAX)? -1: secmin; 
+    }
+    
+    void traverse(TreeNode* root)
+    {
+        if(!root) return; 
+        
+        if(root->val > firstmin)
+            secmin = min(secmin, root->val); 
+        
+        if(root->val >= secmin)
+        {
+            return;
+        }
+        else
+        {
+            traverse(root->left); 
+            traverse(root->right); 
+            
+        }
+        
+        return;
+        
+        
+        
+    }
+};
