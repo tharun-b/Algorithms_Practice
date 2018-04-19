@@ -1,0 +1,73 @@
+class Solution {
+public:
+    
+    vector<string> strspl(string str , char delim)
+    {
+        vector<string> ret; 
+        int orig =0; 
+        int n = str.size(); 
+        
+        for(int i = 1; i< n; i++)
+        {
+            if((str[i] == delim) && (str[i-1] != delim))
+            {
+                ret.push_back(str.substr(orig,(i-orig)));
+            }
+            if((str[i] != delim) && (str[i-1] == delim))
+            {
+                orig =i;
+            }
+        }
+        
+        if(str[n-1] != delim) ret.push_back(str.substr(orig,(n-orig)));
+
+        
+        return ret;         
+    }
+    
+    bool wordPattern(string pattern, string str) {
+        unordered_map< char, string> Map; 
+        unordered_set<string> checkset; 
+        
+          if((str.size() == 0) &&(pattern.size() == 0)) return true; 
+          if((str.size() == 0)) return false; ; 
+          if((pattern.size() ==0))return false; ; 
+
+         vector<string> words = strspl(str,' ');
+        
+        // cout<<words.size()<<"\t->";
+        // for(auto w:words)
+        // {
+        //     cout<<w<<"\"\t\"";
+        // }
+        
+          if(words.size() != pattern.size() ) return false; 
+
+          
+          int i=0; 
+          string pch; 
+          while(i < pattern.size())
+          {                
+              pch = words[i];
+
+              //cout<<i<<" \t"<<pattern[i]<<"____"<<pch<<"____"<<endl;
+              //cout<<pch;
+              auto itr = Map.find(pattern[i]); 
+              if(itr!= Map.end())
+              {
+                  if(itr->second != pch) return false;  
+              }
+              else
+              {
+                
+               if(checkset.count(pch)>0) return false; 
+                checkset.insert(pch);
+                Map[pattern[i]] = pch;
+              }
+
+              i++;
+          }
+    return true; 
+        
+    }
+};
