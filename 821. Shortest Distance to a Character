@@ -1,0 +1,48 @@
+class Solution {
+public:
+
+    vector<int> shortestToChar(string S, char C) {
+        
+        int n = S.size(); 
+        if(n<1) return {}; 
+        
+        vector<int> result(n,INT_MAX); 
+        
+        int prev = -n; 
+        
+        for(int i =0; i< S.size(); i++)
+        {
+            if(C ==S[i])
+            {
+                result[i] = 0; 
+                prev = i;
+            }
+            
+            if(prev >= 0)
+            {
+                result[i] = i-prev; 
+            }
+            
+        }
+        prev = -n; 
+        for(int i = n-1; i>=0; i--)
+        {
+            if(C ==S[i])
+            {
+                prev = i;
+            }
+            
+            if(prev >= 0)
+            {
+                result[i] = min(result[i],prev-i);
+            }
+            
+        }
+        
+        
+        return result; 
+        
+    }
+};
+
+// a b cd e f g h i j k l 
