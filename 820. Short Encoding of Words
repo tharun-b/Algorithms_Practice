@@ -1,0 +1,92 @@
+class Trie{
+    public:
+    vector<Trie*> parr;
+    
+    Trie(){
+        for(int i=0; i<26; i++)
+        {
+            parr.push_back(NULL); 
+        }
+        ct =0; 
+    }
+    int ct =0; 
+};
+
+class Solution {
+public:
+        int depthsum =0; 
+
+ void construct(Trie *root, string S)
+    {
+         int n = S.size() ; 
+         if(n<1) return ; 
+         Trie *ptr = root; 
+         
+            for(int i = n-1; i>=0; i--)
+            {
+                int ind = S[i] - 'a';
+                
+                if(ptr->parr[ind] == NULL)
+                {
+                    ptr->parr[ind] = new Trie; 
+                }
+                
+                ptr = ptr->parr[ind]; 
+                
+            }
+     
+     
+            
+         ptr->ct++; 
+         
+    }
+    
+   int DFS(Trie *root, int depth)
+    {
+        
+        
+       if(!root) return 0; 
+       
+       bool flag = false; 
+       int ct =0; 
+       
+       for(int i =0; i<26; i++)
+       {
+           if(root->parr[i] != NULL)
+           {
+               ct+= DFS(root->parr[i], depth+1);
+               flag = true; 
+           }
+       }
+       
+       if(flag == false)
+       {
+           depthsum += (depth+1); 
+           return 1; 
+       }
+       else
+           return ct; 
+       
+        
+    }
+    
+    
+    int minimumLengthEncoding(vector<string>& words) {
+        
+        Trie *proot = new Trie; 
+        int n = words.size(); 
+       
+        for(int i =0; i<n; i++)
+        {
+            construct(proot, words[i]); 
+        }
+
+        depthsum =0 ;
+        
+        DFS(proot,0);
+        
+        return depthsum;
+    }
+};
+
+
