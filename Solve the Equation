@@ -1,0 +1,117 @@
+class Solution {
+public:
+    int parseString(string &LHS, int &constant , int &coef)
+    {       
+        int n = LHS.size(); 
+        if(n < 1) return -1;    
+        
+        int prevend = -1; 
+        for(int i =0; i < n; i++)
+        {
+         //   cout<<"\n"<<LHS[i]<<")";
+            
+            //if(LHS[i] ==' ') continue; 
+            if((LHS[i] == '+') ||(LHS[i] == '-') || ((i == n-1) && (LHS[i] != 'x')))
+            {
+                int cur =i; 
+                if(i==(n-1)) cur =n; 
+                
+                if((prevend+1) !=cur)
+                {
+                
+                 string s = LHS.substr(prevend+1, cur-prevend-1);
+                 int val = stoi(s);
+                // cout<<"constant ->"<<val<<",\t"; 
+
+                    constant+= val ; 
+                    
+                }
+                prevend = cur-1; 
+            }
+            
+            if(LHS[i] == 'x') 
+            {
+                int val = 1; 
+               
+                 string s = LHS.substr(prevend+1, i-prevend-1);
+                    
+                   // cout<<"\""<<s<<"\""<<endl; 
+                
+                if(s.size()<1)
+                    val =1; 
+                else if(s.size()<2)
+                {
+                    if(s == "-")
+                        val = -1;
+                    
+                    else if(s == "+")
+                        val = 1; 
+                    else 
+                        val =  stoi(s);
+                }
+                else
+                {
+                        val = stoi(s);
+                }
+                
+              // cout<<"\t"<<"xcoeff ->"<<val<<endl; 
+                coef+= val; 
+                prevend = i; 
+            }
+        }
+        return 0;         
+    }
+        
+    string solveEquation(string equation) {
+        
+        string result = "No solution"; 
+        int n = equation.size(); 
+        if(n<1) return result; 
+        
+        
+        auto itr = equation.find('=');
+        
+        if(!(itr != string::npos))
+            return result; 
+        
+        string LHS = equation.substr(0, itr);
+        
+        string RHS = equation.substr(itr+1, n);
+        
+       // cout<<LHS<<endl<<RHS<<endl; 
+        
+        int xcoef = 0; 
+        int constant =0; 
+        
+       
+        parseString(LHS, constant , xcoef); 
+        
+        //cout<<"Handling RHS"<<endl; 
+
+        int rxcoef = 0; 
+        int rconstant =0; 
+        parseString(RHS, rconstant,  rxcoef); 
+        
+//         cout<<"lxc = "<<xcoef<<endl<<"k = "<<constant<<endl; 
+//         cout<<"rxc = "<<rxcoef<<endl<<"k = "<<rconstant<<endl;        
+        
+//         cout<<"xcoef = "<<xcoef-rxcoef<<endl<<"constant = "<<constant-rconstant<<endl; 
+
+        xcoef-= rxcoef; 
+        constant -= rconstant; 
+        
+        if(xcoef ==0)
+        {
+            
+            if(constant ==0) result = "Infinite solutions";
+        }
+        else
+        {
+            result = "x=";
+            result += to_string(-constant/xcoef); 
+        }
+        
+        return result; 
+        
+    }
+};
