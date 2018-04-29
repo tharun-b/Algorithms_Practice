@@ -1,0 +1,53 @@
+class Solution {
+public:
+    string extend(string s, int c)
+    {
+        if(s.empty()) return s; 
+        if(s == " ") return "";         
+        string result = ""; 
+        
+        if((s[0] == 'a' || s[0] == 'e' || (s[0] == 'i' || s[0] == 'o')|| (s[0] == 'u') ||(s[0] == 'A' || s[0] == 'E' || (s[0] ==            'I' || s[0] == 'O')|| (s[0] == 'U') )))
+        {
+            result += s; 
+            
+        }
+        else
+        {
+            result += s.substr(1,s.size()-1);
+            result.push_back(s[0]); 
+            
+        }
+        result += "ma";
+        while(c--)
+        {
+            result.push_back('a');
+        }
+            
+        return result; 
+    }
+    string toGoatLatin(string S) {
+        
+        if(S.empty()) return S; 
+        string res = ""; 
+        int start =0; 
+        int found =0; 
+        int i =1; 
+            while(found = S.find(' ', start) )
+            {
+               if(found==std::string::npos) break; 
+                
+                string subs = S.substr(start , found-start);
+                start = found + 1; 
+                res += extend(subs, i); 
+                //cout<<subs<<"]\t["; 
+                i++; 
+                res += " ";
+            }
+
+        string subs  = S.substr(start, S.size());
+                            //cout<<subs<<"]\t["; 
+         res += extend(subs, i ); 
+
+        return res;
+    }
+};
