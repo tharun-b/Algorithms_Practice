@@ -1,0 +1,45 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+    
+public:
+    unordered_map<TreeNode *, int> cache;
+    int ind = 1; 
+    int kmin = INT_MAX; 
+    
+    int DFS(TreeNode* root, int k )
+    {
+        if(!root) return 0; 
+        
+        
+        int l  = DFS(root->left, k); 
+        
+        if(ind == k) kmin = root->val;
+                ind++; 
+
+        int r = DFS(root->right, k); 
+        
+        cache[root] = l; 
+        return ( l+r+1) ;
+        
+        
+    }
+    int kthSmallest(TreeNode* root, int k) {
+        
+        ind =1; 
+        kmin = INT_MAX; 
+        int n = DFS(root, k); 
+        
+        return kmin;         
+        
+    }
+    
+    
+};
