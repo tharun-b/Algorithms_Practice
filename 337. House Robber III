@@ -1,0 +1,40 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+
+    void robutil(TreeNode *root, int &cur, int &pre)
+    {
+      cur =0; 
+      pre =0; 
+      if(root == NULL)  return; 
+    
+       int curl,  prevl; 
+        
+       robutil(root->left, curl, prevl);
+        
+       int curr,  prevr; 
+
+       robutil(root->right, curr, prevr);
+        
+        cur = max(prevr + prevl + root->val , curr + curl); 
+        pre = curr + curl; 
+          
+    }
+    int rob(TreeNode* root) {
+       
+        int cur =0; 
+        int pre =0; 
+        
+            robutil(root, cur, pre);
+                
+                return cur; 
+    }
+};
