@@ -1,0 +1,61 @@
+class Solution {
+public:
+    string replaceWords(vector<string>& dict, string sentence) {
+        set<string> hash; 
+        for(auto a:dict)
+        {
+            hash.insert(a); 
+        }
+        
+        int found =0; 
+        int start =0; 
+        string result = ""; 
+        while((found = sentence.find(" ",start )) != string::npos)
+        {     
+            if(found != start) 
+            {                
+                for(int i  = start; i < found; i++)
+                {
+                    string s = sentence.substr(start, i-start+1); 
+                    if((hash.count(s) >0) || (i == (found-1)))
+                    {
+                        if(result.size()) result.push_back(' '); 
+                        result += s; 
+
+                        break; 
+                        
+                    }
+                }
+
+            }
+            //cout<<result<<endl; 
+
+            start = found+1; 
+            
+        }
+        
+        int n = sentence.size(); 
+
+        if(sentence[n-1] != ' ')
+            {
+                for(int i  = start; i < n; i++)
+                {
+                    string s = sentence.substr(start, i-start+1); 
+                    if((hash.count(s) >0) || (i == (n-1)))
+                    {
+                        if(result.size()) result.push_back(' '); 
+                        result += s; 
+                        break; 
+                        
+                    }
+                }
+            }
+            //cout<<result<<endl; 
+
+            
+        
+        
+        return result; 
+        
+    }
+};
