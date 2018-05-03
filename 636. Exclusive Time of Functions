@@ -1,0 +1,81 @@
+class Solution {
+public:
+    vector<int> exclusiveTime(int n, vector<string>& logs) {
+        
+        vector<int> result(n, 0); 
+        
+        stack<pair<int,int> > funstack; 
+        
+        for(int i =0; i<logs.size(); i++)
+        {
+            
+            string str = logs[i]; 
+            int m = str.size() ; 
+            int first = str.find(':'); 
+            
+            int num = stoi(str.substr(0,first));
+            int second = str.find(':', first+1);
+            
+            string sub = str.substr(first+1, (second - first - 1));
+            
+            string temp = str.substr( second + 1, m - second - 1 ) ;
+            
+            // cout<<num<<", "<<sub<<", "<<temp<<"||\t"; 
+
+            int timestamp = stoi(temp); 
+
+                        
+            if(sub == "start" )
+            {
+
+                if(!funstack.empty())
+                {
+                    int f = funstack.top().first; 
+                    int r = funstack.top().second; 
+                    result[f] +=   (timestamp - r);
+                }
+                funstack.push(make_pair(num, timestamp));
+                                
+            }
+
+            if(sub == "end")
+            {
+                                            // cout<<"end ||\t"; 
+
+                if(!funstack.empty())
+                {
+                    if(funstack.top().first == num)
+                    {
+                        result[num] += (timestamp - funstack.top().second +1); 
+                        funstack.pop(); 
+                        if(funstack.size()) 
+                            funstack.top().second = timestamp +1 ; 
+                                                                    
+
+                         // if(funstack.size())
+                         //    cout<<"upd"<<")"<< funstack.top().first << "\t"<<funstack.top().second;
+            
+
+                    }
+                    else
+                    {
+                        // cout<<"error"<<endl; 
+                    }
+                }
+
+
+            }
+
+            // if(funstack.size())
+            //  cout<<i<<")"<< funstack.top().first << "\t"<<funstack.top().second<<endl;
+            
+        }
+        
+        // for(int i =0; i < result.size(); i++)
+        // {
+        //     cout<<result[i]<<", "; 
+        // }
+
+        return result; 
+    }
+};
