@@ -1,0 +1,63 @@
+class Solution {
+   
+public:
+     vector<vector<int>> result; 
+    
+    void util(vector<int>& candidates, int sum, int ind , vector<int> accum)
+    {
+        if(sum<0) 
+            return; 
+        
+        
+        // cout<<"Call index "<<ind<<" sum = "<<sum<<"\t"<<accum.size()<<endl; 
+        
+        if ((ind < 0) )
+        {
+            if(sum ==0)
+            {
+                // for(auto a:accum)
+                // {
+                //     cout<<a<<"\t"; 
+                // }
+                result.push_back(accum); 
+                return; 
+            }
+            else
+            {
+                return; 
+            }
+        }
+        
+        int c = candidates[ind]; 
+        int r =0; 
+        while(r * c <= sum)
+        {
+            if(r) accum.push_back(candidates[ind]); 
+            util(candidates, sum - (r * candidates[ind]), ind-1, accum);
+            r++; 
+        }
+        
+        // while(r--)
+        // {
+        //     accum.pop_back(); 
+        // }
+        
+        return; 
+         
+        
+        
+    }
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        
+        sort(candidates.begin(), candidates.end()); 
+        result.clear(); 
+        int n = candidates.size(); 
+        vector<int> accum; 
+        
+        util(candidates, target, n-1, accum); 
+        
+        return result; 
+        
+    }
+};
+
