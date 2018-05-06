@@ -1,0 +1,40 @@
+class Solution {
+public:
+    vector<vector<int>> imageSmoother(vector<vector<int>>& M) {
+        
+        int n = M.size(); 
+        if(n<1) return {};
+        
+        int m = M[0].size(); 
+        
+        
+        vector<vector<int>> ans(n,vector<int>(m,0));
+        
+        for(int i =0; i< n; i++)
+        {
+            for(int j=0; j<m; j++)
+            {
+                
+                int ct =1; 
+                int sum = M[i][j]; 
+                
+                if((i>0) && (j>0))      { sum+= M[i-1][j-1]; ct++;}
+                if((i>0))               { sum+= M[i-1][j]; ct++;}
+                if((i>0) && (j < (m-1))) { sum+= M[i-1][j+1]; ct++;}
+                   
+                if((i<(n-1)) && (j > 0))      { sum+= M[i+1][j-1]; ct++;}
+                if((i<(n-1)))               { sum+= M[i+1][j]; ct++;}
+                if((i<(n-1))&& (j < (m-1))) { sum+= M[i+1][j+1]; ct++;}
+                
+                if((j>0))                   { sum+= M[i][j-1]; ct++;}
+                if((j < (m-1)))             { sum+= M[i][j+1]; ct++;}
+                
+                ans[i][j] = (sum/ct);
+                
+            }
+        }
+        
+        return ans; 
+        
+    }
+};
