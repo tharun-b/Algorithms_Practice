@@ -1,0 +1,87 @@
+class MyCalendarTwo {
+public:
+    multimap<int,int> slots; 
+    multimap<int,int> overlapslots; 
+
+    MyCalendarTwo() {
+        slots.clear(); 
+        overlapslots.clear(); 
+        
+    }
+    bool isOverlapping(int s1, int e1, int s2, int e2)
+    {
+        
+        
+      if(e2 <= s1) return false; 
+      if(e1 <= s2) return false; 
+
+      return true; 
+        
+    }
+    
+    pair<int,int> intersection(int s1, int e1, int s2, int e2)
+    {
+        int s =  max(s1,s2);
+        int e = min(e1,e2);
+
+        return make_pair(s,e);
+    }
+    
+    bool book(int start, int end) {
+        if(start >= end)
+        {
+            return false;     
+        }
+        
+       // cout<<"===("<<start<<" ," <<end<<")"<< "\t" ;
+
+        for(auto itr = overlapslots.begin(); itr!= overlapslots.end(); itr++)
+        {
+            
+           //cout<<"Ovl\t("<<itr->first<<","<<itr->second<<")"<<endl;
+
+            if(isOverlapping(itr->first, itr->second, start, end))
+            {
+                return false; 
+            }
+            
+        }
+        
+        
+        {
+
+
+            for(auto itr = slots.begin(); itr!= slots.end(); itr++)
+            {
+
+               // cout<<"plane \t("<<itr->first<<","<<itr->second<<")"<<endl;
+                if(isOverlapping(itr->first, itr->second, start, end))
+                {
+                    
+                    auto p =intersection(itr->first, itr->second, start, end);
+                    
+                      //cout<<"Ol Add("<< p.first<<","<<p.second<<")"<<endl;
+
+                    overlapslots.insert(p);
+                    
+                    
+                }
+
+            }
+            
+                    //cout<<"Added ("<<start<<","<<end<<")"<<endl;
+
+            slots.insert(make_pair(start,end));
+
+        }
+            
+        return true; 
+        
+    }
+};
+
+/**
+ * Your MyCalendarTwo object will be instantiated and called as such:
+ * MyCalendarTwo obj = new MyCalendarTwo();
+ * bool param_1 = obj.book(start,end);
+ */
