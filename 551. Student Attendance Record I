@@ -1,0 +1,44 @@
+class Solution {
+public:
+    bool checkRecord(string s) {
+        
+        if(s.empty()) return true;
+        
+        int ls =0; 
+        int abscount = 0; 
+        
+        for(auto a:s)
+        {
+            switch(a)
+            {
+                case 'A':
+                    {
+                        
+                    ls = 0; 
+                    abscount++; 
+                    if(abscount>1) 
+                        return false; 
+                        break;
+                    }
+                    
+                case 'L':
+                    {
+                        ls++; 
+
+                        if(ls > 2)
+                            return false; 
+                        break;
+                    
+                    }
+                    
+                case 'P':
+                    {
+                        ls =0; 
+                        break;
+                    }
+            }
+        }
+        return true; 
+        
+    }
+};
