@@ -1,0 +1,91 @@
+class Solution {
+public:
+    bool isValid(char c)
+    {
+         return ((c>='a')&&(c<='z')) ||((c>='A')&&(c<='Z')); 
+    }
+    
+    
+    string tolowerUtil(string str)
+    {
+        string s; 
+         for(int i =0; i< str.size(); i++)
+         {
+             if(!isValid(str[i])) break;
+             
+             s.push_back(tolower(str[i])); 
+         }
+        
+        return s; 
+    }
+    
+    string mostCommonWord(string paragraph, vector<string>& banned) {
+        int n = paragraph.size();
+        if(n<1) return "";
+        
+        unordered_set<string> hash; 
+
+        for(auto b:banned)
+        {
+            hash.insert(b);
+        }
+        
+        int bestc =0; 
+        string beststring = "";
+        int orig =0; 
+        
+        unordered_map<string, int> chash; 
+                
+        for(int i =1; i < paragraph.size(); i++)
+        {
+            char c = paragraph[i] ; 
+                        
+            if( isValid(c)) 
+            {              
+                if(!isValid(paragraph[i-1]))
+                    orig = i;                 
+            }
+            if( !isValid(c)  &&  isValid(paragraph[i-1]) ) 
+            {          
+                string s1 = paragraph.substr(orig, (i-orig)); 
+                
+                s1 = tolowerUtil(s1); 
+                if(hash.count(s1) == 0)
+                {
+                    cout<<s1<<endl; 
+                    chash[s1]++; 
+                    
+                    if(chash[s1] > bestc)
+                    {
+                        bestc = chash[s1];
+                        beststring = s1; 
+                        
+                    }
+                }
+            
+            }    
+        }
+        
+        if(isValid(paragraph[n-1]))
+        {
+        
+                string s1 = paragraph.substr(orig, (n-orig)); 
+                s1 = tolowerUtil(s1); 
+
+                if(hash.count(s1) == 0)
+                {
+                    cout<<s1<<endl; 
+                    chash[s1]++; 
+                    
+                    if(chash[s1] > bestc)
+                    {
+                        bestc = chash[s1];
+                        beststring = s1; 
+                        
+                    }
+                }
+        }
+        
+        return beststring; 
+    }
+};
