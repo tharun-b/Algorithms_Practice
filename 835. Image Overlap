@@ -1,0 +1,99 @@
+class Solution {
+public:
+    
+    int encode(vector<int> &ar)
+    {
+        int ret =0; 
+        int m = ar.size(); 
+        for(int i = 0; i<m; i++)
+        {
+            ret = (ret<<1); 
+            ret += ar[i]; 
+        }
+        
+        return ret; 
+    }
+    
+     int count(int n)
+    {
+       int ct =0; 
+       while(n)
+       {
+           ct += (n&1);
+           n = (n>>1); 
+       }
+         
+         return ct; 
+    }
+    
+    
+    int largestOverlap(vector<vector<int>>& A, vector<vector<int>>& B) {
+        
+        int n = A.size(); 
+            if(n<1) return 0; 
+        int m = A[0].size(); 
+        
+        
+
+        vector<int> left(n,0);
+        vector<int> right(n,0); 
+        
+        
+        
+        for(int i =0; i<n; i++)
+        {
+            left[i] = encode(A[i]);
+            right[i] = encode(B[i]);
+
+            // cout<<left[i]<<"\t"<<right[i]<<endl;
+        }
+        
+        
+        int maxel = -1; 
+        
+        for(int i = -n+1; i<n; i++)
+        {
+            
+            for(int j= -n+1; j<n; j++)
+            {
+                
+                // cout<<i<<"<-i,j->"<<j<<"\t++++++++++"<<endl; 
+
+                {
+                   int ct =0; 
+
+                    for(int k =j; k < n; k++)
+                    {
+                        if(((k-j) >= n) || ((k-j) <0)) continue; 
+                        
+                        int l = left[k-j];
+                        int r  = right[k];
+
+                        if(i<0)
+                        {
+                              r = (r<<(-i)); 
+
+                        }
+                        else
+                        {
+                              r = (r>>i); 
+
+                        }
+                        // cout<<l<<"_____-l,r-_____"<<r<<"\t"<<(l&r)<<endl; 
+
+                        ct += count((l&r));
+
+                    }
+
+                    maxel = max(ct, maxel); 
+                                    // cout<<ct<<endl; 
+
+                }
+                
+            }
+        }
+        
+        return maxel; 
+        
+    }
+};
