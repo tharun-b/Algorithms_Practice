@@ -1,0 +1,60 @@
+833. Find And Replace in String
+
+class Solution {
+public:
+    string findReplaceString(string S, vector<int>& indexes, vector<string>& sources, vector<string>& targets) {
+        int n = indexes.size(); 
+        int m = sources.size();
+        
+        int l = targets.size(); 
+        if((n!= m) || (m!=l))  return S; 
+        if(n<1) return S; 
+        
+        
+        map<int,int> hash;
+    
+        for(int i = 0; i< n; i++)
+        {
+            hash[indexes[i]] = i; 
+        }
+    
+        string out = ""; 
+        int k = 0; 
+        string temp; 
+        string repl;
+        
+        int prev = 0; 
+        for(int i =0; i< S.size(); i++ )
+        {
+            char c = S[i]; 
+            
+            
+            if(hash.count(i))
+            {
+                string str = sources[hash[i]];
+                
+                // cout<<str<<","<<i<<"\t";
+                if(S.compare(i,str.size(),str) == 0)
+                {
+                    out+= targets[hash[i]];
+                    i += (str.size() -1);
+                }
+                else
+                {
+                    out.push_back(S[i]);
+                }
+                
+            }
+            else
+            {
+               out.push_back(S[i]);
+            }
+            
+                            // cout<<out<<endl; 
+
+        }
+                
+        return out; 
+        
+    }
+};
