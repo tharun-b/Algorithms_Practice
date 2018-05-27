@@ -1,0 +1,80 @@
+class Solution {
+public:
+    bool explore(int firn, int secn, string &S, int cur, vector<int> &list)
+    {
+        if(secn > (INT_MAX - firn)) return false; 
+        if(cur == S.size()) return (list.size() > 2);
+        
+        
+        int totn = firn + secn; 
+        string tot = to_string(totn); 
+        
+         // cout<<cur<<")"<<firn<<","<<secn<<","<<totn<<"\t___"; 
+
+        for(int j = 0; (j < tot.size()); j++)
+        {
+            // cout<<j<<","<<cur<<"<";
+            if((j + cur) >= S.size()) return false; 
+            if(S[j+cur] != tot[j]) return false;  
+        }
+        
+        list.push_back(totn); 
+        if((cur + tot.size())== S.size()) return true; 
+        // cout<<"Next"<<(cur + tot.size())<<endl;
+
+        if(explore(secn, totn, S, cur+tot.size(), list))
+        {
+            
+            // cout<<"++"<<totn<<"\t";
+            return true; 
+        }
+        else
+        {
+            // cout<<"--"<<endl; 
+            
+            list.pop_back(); 
+            return false; 
+        }
+    }
+    
+    vector<int> splitIntoFibonacci(string S) {
+        
+        int n = S.size(); 
+        if(n<3) return {}; 
+        
+        for(int i =1; i < (min(11,n)); i++)
+        {
+            string fir = S.substr(0,i); 
+            long firn = stol(fir); 
+            if(firn >INT_MAX) continue; 
+            
+            if((fir[0] == '0') && (firn> 0)) continue; 
+                
+            for(int j =i+1; j < (min((i+11),n)); j++)
+            {
+                
+                string sec = S.substr(i, j-i); 
+
+                // cout<<sec.size()<<"]";
+                long secn = stol(sec); 
+                
+                if(secn >INT_MAX) break; 
+                if((sec[0] == '0') && (secn> 0)) break; 
+                
+                 // cout<<endl<<firn<<","<<secn<<"\t"; 
+                vector<int> fin;
+                
+                fin.push_back(firn); 
+                fin.push_back(secn); 
+                if(explore(firn, secn,S, j, fin))
+                {
+                    return fin;
+                }
+                
+            }
+        }
+        
+        return {}; 
+        
+    }
+};
