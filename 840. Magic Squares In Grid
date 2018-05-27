@@ -1,0 +1,99 @@
+
+class Solution {
+public:
+    
+    bool isMagic(vector<vector<int>> &grid, int y , int x)
+    {
+        int e ; 
+        int e1 = grid[y-1][x-1];
+    
+        int tot =0; 
+        
+        e = e1;
+                        tot += (1<<e);
+
+        if((e<0) || (e>9)) return false; 
+        int e2 = grid[y-1][x];
+        e = e2;
+                tot += (1<<e);
+
+        
+        if((e<0) || (e>9)) return false; 
+        int e3 = grid[y-1][x+1];
+        e = e3;
+                tot += (1<<e);
+
+        if((e<0) || (e>9)) return false; 
+        int e4 = grid[y][x-1];
+        e = e4;
+                tot += (1<<e);
+
+        if((e<0) || (e>9)) return false; 
+        int e5 = grid[y][x];
+        e = e5;
+                tot += (1<<e);
+
+        if((e<0) || (e>9)) return false; 
+        int e6 = grid[y][x+1];
+        e = e6;
+                tot += (1<<e);
+
+        if((e<0) || (e>9)) return false; 
+        int e7 = grid[y+1][x-1];
+        e = e7;
+                tot += (1<<e);
+
+        if((e<0) || (e>9)) return false; 
+        int e8 = grid[y+1][x];
+        e = e8;
+                tot += (1<<e);
+
+        if((e<0) || (e>9)) return false; 
+        int e9 = grid[y+1][x+1];
+        e = e9;
+                tot += (1<<e);
+
+        if((e<0) || (e>9)) return false; 
+                // cout<<tot<<endl;
+
+        if(tot!= 1022) return false; 
+        int sum = e1+e2+e3; 
+        
+        // cout<<sum; 
+        if((e4+e5 +e6) != sum) return false; 
+        if((e7+e8 +e9) != sum) return false; 
+        if((e1+e4 +e7) != sum) return false; 
+                // cout<<sum; 
+
+        if((e2+e5 +e8) != sum) return false; 
+        if((e3+e6 +e9) != sum) return false; 
+        if((e1+e5 +e9) != sum) return false; 
+                // cout<<sum; 
+
+        if((e3+e5 +e7) != sum) return false; 
+
+        return true; 
+        
+        
+    }
+    
+    int numMagicSquaresInside(vector<vector<int>>& grid) 
+    {
+        int n = grid.size();         if(n<1) return 0; 
+
+        int m = grid[0].size(); 
+        if(m<1) return 0; 
+        int ct =0; 
+        
+        for(int i=0; i< n-2; i++ )
+        {
+            for(int j=0; j< m-2; j++)
+            {
+                ct+= isMagic(grid, i+1, j+1);
+            }
+        }
+        
+        return ct; 
+        
+    }
+};
