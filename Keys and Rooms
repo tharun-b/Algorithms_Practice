@@ -1,0 +1,36 @@
+class Solution {
+public:
+    
+    void DFS(vector<vector<int>>& rooms, vector<bool> &vis, int cur)
+    {
+        if(vis[cur] ==1) return; 
+        
+        // cout<<cur<<"\t";
+        
+        vis[cur] =1; 
+        for(int i =0; i< rooms[cur].size(); i++)
+        {
+           int el = rooms[cur][i]; 
+           
+           DFS(rooms,vis,el); 
+        }
+    }
+    bool canVisitAllRooms(vector<vector<int>>& rooms) {
+        
+        
+        int n = rooms.size(); 
+        if(n<2) return true; 
+        vector<bool> vis(n,0); 
+        DFS(rooms, vis, 0);
+        
+        int ct =0; 
+        for(auto a:vis)
+        {
+            ct+=a; 
+            // cout<<a<<",";
+        }
+        return (ct==n);
+        
+        
+    }
+};
