@@ -1,0 +1,63 @@
+class Solution {
+public:
+  
+        
+    
+    bool isOneEditDistance(string s, string t) {
+                        
+        bool samesize = (s.size() == t.size()); 
+        
+        if(samesize)
+        {
+            int ct =0; 
+             for(int i =0; i< s.size(); i++)
+             {
+                 ct += (s[i] != t[i]);
+                 if(ct>1) return false; 
+             }
+            return (ct==1);
+        }
+       
+        
+        string &left = (s.size() < t.size())? s:t; 
+        string &right = (s.size() > t.size())? s:t; 
+        
+        if(right.size() > (left.size() +1)) return false; 
+        
+        int ct =0; 
+        int j =0; 
+        int i =0; 
+        
+         while( i < left.size())
+         {
+             // cout<< left[i]<<","<<right[j]<<endl; 
+             if(left[i] != right[j])
+             {
+                 if(ct == 0)
+                 {
+                   j++; 
+                 }
+                 else
+                 {
+                     i++; 
+                     j++; 
+                 }
+                 ct++;
+                 
+                 if(ct>1) return false; 
+
+             }
+             else
+             {
+                  i++; 
+                  j++; 
+             }
+         }
+        
+        if((i==j) && (j == (right.size() -1))) return true; 
+        return ((ct ==1) && (i !=j));
+
+        
+        
+    }
+};
