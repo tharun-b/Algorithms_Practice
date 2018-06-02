@@ -1,0 +1,89 @@
+class Solution {
+public:
+   bool wordPatternUtil(string &pattern,int patind, string &str, int strind, unordered_map<char, string> & hash,unordered_map<string, char> & revhash  )
+        {
+            if(patind == pattern.size()) return (strind == str.size()); 
+            if(strind >= str.size())  return false;
+        
+            char c = pattern[patind];
+        
+            bool isval = false; 
+       
+       
+            if(hash.count(c)>0)
+            {
+                string lookstr = hash[c]; 
+                // cout<< lookstr<<endl; 
+                
+                if(revhash.count(lookstr) >0)
+                {
+                    
+                    if(revhash[lookstr] == c)
+                    {
+                        isval = true;  
+
+                        if(lookstr == str.substr(strind, lookstr.size()))
+                        {
+                            return wordPatternUtil(pattern, patind+1, str, strind+lookstr.size(), hash, revhash);
+                        }
+                        else
+                            return false; 
+                    }
+                    else
+                    {
+                        isval = false; 
+                    }
+                    
+                }
+                else
+                {
+                     isval = false; 
+                }
+                
+            }
+            
+            if(isval == false)
+            {
+
+                for(int i = strind+1 ;  i <= (str.size() - (pattern.size() - patind) +1); i++ )
+                    {
+                        string newstr = str.substr(strind,i - strind);
+                        
+                        if(revhash.count(newstr) >0)
+                        {
+                            continue; 
+                        }
+                        
+                       hash[c] = newstr;  
+                       // cout<<newstr<<"\t"; 
+                    
+                       revhash[newstr] = c; 
+                       bool isvalid = wordPatternUtil(pattern, patind+1, str, strind +newstr.size(), hash, revhash ); 
+                        
+                       if(isvalid) 
+                           return true;
+                        else
+                        {
+                            revhash.erase(newstr); 
+                        }
+                    
+                    }
+                    return false; 
+
+            }
+        
+        return false; 
+            
+        }
+    
+    
+    bool wordPatternMatch(string pattern, string str) {
+        
+        if(pattern.size() <1) return (str.size() == 0);
+        if(str.size()<1) return false; 
+        unordered_map<char, string> hash; 
+        unordered_map<string, char>  revhash; 
+        return wordPatternUtil(pattern , 0, str, 0, hash, revhash); 
+        
+    }
+};
