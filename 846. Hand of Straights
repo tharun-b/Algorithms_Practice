@@ -1,0 +1,51 @@
+class Solution {
+public:
+    bool isNStraightHand(vector<int>& hand, int W) {
+        
+        int n = hand.size(); 
+        
+        if(n<W) return 0; 
+        if(W<1) return 0; 
+        if(W ==1) return true; 
+        if(n%W) return false; 
+        
+        multiset<int> hash; 
+        
+        for(auto a:hand)
+        {
+            hash.insert(a); 
+        }
+        
+        auto itr = hash.begin(); 
+        
+        int i =0; 
+        while(hash.size())
+        {
+           // cout<<endl<<hash.size()<<"\t"<<i++<<endl; 
+
+            int ct = W; 
+            auto itr = hash.begin();
+            int v = *itr;
+            
+            while(ct > 0)
+            {
+                
+                itr = hash.find(v); 
+                if(itr == hash.end()) 
+                    return false; 
+                
+                hash.erase(itr); 
+
+                v = v+1; 
+                
+                // cout<<v<<","; 
+                
+                ct--; 
+            }
+            
+        }
+        
+        return true; 
+        
+    }
+};
