@@ -1,0 +1,41 @@
+class Solution {
+public:
+    int longestMountain(vector<int>& A) {
+        
+        int n = A.size(); 
+        if(n<3) return 0 ; 
+        
+        vector<int> up(n,0); 
+        vector<int> down(n,0); 
+        
+        for(int i =1; i< n-1; i++)
+        {
+            if(A[i] > A[i-1])
+            {
+                up[i] = up[i-1] +1; 
+            }
+            
+        }
+        
+        int mx = 0; 
+         for(int i = (n-2) ; i >=0 ; i--)
+        {
+            if(A[i] > A[i+1])
+            {
+                down[i] = down[i+1] +1; 
+            } 
+             
+             if((down[i] >0) && (up[i]>0))
+             {
+                mx = max(down[i] + up[i] +1, mx); 
+                // cout<<i<<")"<< down[i]<<","<<mx<<endl ; 
+
+             }
+             
+        }
+        
+        return mx; 
+        
+        
+    }
+};
