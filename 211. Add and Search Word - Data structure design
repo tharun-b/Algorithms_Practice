@@ -1,0 +1,93 @@
+struct Node
+{
+    Node* plist[26];
+    bool isWordEnd = false;
+};
+class WordDictionary {
+    Node *root; 
+public:
+    
+    /** Initialize your data structure here. */
+    WordDictionary() {
+        
+//         if(root)
+//         {
+            
+//         }
+        /* delete and cleanup  */ 
+       root = new Node; 
+        for(int i =0; i< 26; i++)
+        {
+            root->plist[i] = NULL; 
+        }
+    
+        
+    }
+    
+    /** Adds a word into the data structure. */
+    void addWord(string word) {
+        Node * ptr = root; 
+        for(auto ch: word)
+        {
+            int ind = ch-'a'; 
+            
+            if(! ptr->plist[ind])
+            {
+                Node * nptr = new Node ;
+                for(int i =0; i< 26; i++)
+                {
+                    nptr->plist[i] = NULL; 
+                }
+                ptr->plist[ind] = nptr ;
+            }
+            
+            
+            ptr  = ptr->plist[ind]; 
+        }
+        ptr->isWordEnd = true; 
+    }
+    
+    
+    bool searchUtil(string &word, int ind, Node *curptr)
+    {
+        
+        if(curptr == NULL) return false;         
+
+        if(ind == word.size()) return (curptr->isWordEnd); 
+        // cout<<word[ind]<<","<< curptr->isWordEnd<<endl; 
+
+        if(word[ind] == '.')
+        {
+            for(int i=0; i< 26; i++)
+            {
+                bool lo = searchUtil(word, ind+1, curptr->plist[i]);
+                if(lo) return true; 
+            }
+            return false; 
+        }
+        else
+        {
+            return searchUtil(word, ind+1, curptr->plist[word[ind] -'a']);
+        }
+        return false; 
+        
+    }
+    /** Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter. */
+    bool search(string word) {
+        // cout<<"=============searching==============="<<word<<endl; 
+        
+        Node *ptr = root; 
+        if(ptr == NULL) return false; 
+        bool lo = searchUtil(word, 0, ptr); 
+        // cout<<"+++ resul  "<<lo<<endl; 
+        return lo; 
+        
+    }
+};
+
+/**
+ * Your WordDictionary object will be instantiated and called as such:
+ * WordDictionary obj = new WordDictionary();
+ * obj.addWord(word);
+ * bool param_2 = obj.search(word);
+ */
