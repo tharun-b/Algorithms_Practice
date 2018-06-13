@@ -1,0 +1,60 @@
+bool myCompare (pair<int, string> &left, pair<int, string> &right )
+    {
+        if(left.first < right.first)
+        {
+            return true; 
+        }
+        else
+        {
+            if(left.first == right.first)
+            {
+                return (left.second > right.second);
+            }
+            else
+            {
+                return false; 
+            }
+        }
+        
+        return false; // dummy
+    }
+
+class Solution {
+public:
+   
+    
+    vector<string> topKFrequent(vector<string>& words, int k) {
+        
+        if((k<1)||(words.size() <1)) return {}; 
+        
+        map<string, int > dict; 
+        
+        for(int i =0; i< words.size(); i++)
+        {
+             dict[words[i]]++;
+        }
+        
+        vector<pair<int,string>> hist; 
+        for(auto itr = dict.begin(); itr!= dict.end(); itr++)
+        {
+            hist.push_back(make_pair(itr->second, itr->first)); 
+        }
+        
+        make_heap(hist.begin(), hist.end(), myCompare); //, myCompare()
+        
+        int ct = k;
+        vector<string> ret; 
+        int n = hist.size();
+        
+        while(ct--)
+        {
+            auto &a = hist.front(); 
+            ret.push_back(a.second);             
+            pop_heap(hist.begin(), hist.end(), myCompare); 
+            hist.pop_back();      
+        }
+        
+        return ret; 
+        
+    }
+};
