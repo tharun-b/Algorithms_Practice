@@ -1,0 +1,48 @@
+class Solution {
+public:
+    vector<vector<int>> result; 
+    vector<int> ar; 
+    
+    void util(int n, vector<int> &ar, int m, int ref)
+    {
+
+       if(n == 1) 
+       {
+           result.push_back(ar); 
+           return ; 
+       }
+       int i = (ar.size())? ar.back():2 ;  
+       for(; i <= n; i++)
+       {
+           if(m==i) continue; 
+           
+           if((n%i)==0)
+           {
+
+
+               ar.push_back(i); 
+               
+               util(n/i, ar, m,i+1);
+         
+                 ar.pop_back(); 
+               
+               
+           }
+       }
+    
+        return ; 
+        
+    }
+    vector<vector<int>> getFactors(int n) {
+        
+        result.clear(); 
+        ar.clear(); 
+        
+        if(n<2) return {}; 
+        
+        util(n, ar, n, 2); 
+
+        
+        return result; 
+    }
+};
