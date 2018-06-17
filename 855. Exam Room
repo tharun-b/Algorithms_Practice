@@ -1,0 +1,75 @@
+class ExamRoom {
+    map<int, int> hash; 
+    int _N; 
+public:
+    
+    ExamRoom(int N) {
+        hash.clear(); 
+        _N = N; 
+        
+    }
+    
+    int seat() {
+        if(hash.empty()) 
+        {
+            hash[0] = 1; 
+            return 0; 
+        }
+        if(hash.size() ==1)
+        {
+            
+        }
+        
+        
+        auto itr = hash.begin(); 
+        int prev = itr->first; 
+        itr++; 
+        
+        int mx_ind =0; 
+        int mx = 0; 
+        if(prev !=0)
+        {
+            mx_ind = -prev; 
+            mx = prev; 
+        }
+    
+        
+        for(; itr != hash.end(); itr++)
+        {
+             if(((itr->first - prev)/2) > mx)
+             {
+                 mx_ind = prev; 
+                 mx = (itr->first -prev)/2; 
+             }            
+            prev = itr->first; 
+        }
+        
+        
+        if(prev != (_N-1))
+        {
+            if(mx < (_N-1 - prev))
+            {
+                mx_ind = prev; 
+                mx = (_N-1 - prev);
+            }
+        }
+        
+
+        hash[mx_ind + mx] = 1; 
+        return mx_ind + (mx) ;
+        
+    }
+    
+    void leave(int p) {
+        
+        hash.erase(p); 
+        
+    }
+};
+
+/**
+ * Your ExamRoom object will be instantiated and called as such:
+ * ExamRoom obj = new ExamRoom(N);
+ * int param_1 = obj.seat();
+ * obj.leave(p);
+ */
