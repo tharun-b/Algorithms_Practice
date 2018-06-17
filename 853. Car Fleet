@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int carFleet(int target, vector<int>& position, vector<int>& speed) {
+        
+        int n = position.size(); 
+        multimap<int, int> hash; 
+        for(int i =0; i< n; i++)
+        {
+            hash.insert(make_pair(position[i],speed[i])); 
+        }
+        int ct =0; 
+        
+        double prevt = 0; 
+        for(auto itr = hash.rbegin(); itr!= hash.rend(); itr++)
+        {
+            int pos = itr->first; 
+            int sec = itr->second; 
+            
+            double t  = ((double)target - pos) / sec; 
+            
+            if(t > prevt) {
+                ct++; 
+            }
+            
+            prevt = max(t, prevt); 
+            
+        }
+        
+        return ct; 
+        
+    }
+};
