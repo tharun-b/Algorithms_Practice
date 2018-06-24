@@ -1,0 +1,56 @@
+class Solution {
+public:
+    int gcd(int a, int b)
+    {
+        if(b%a ==0) return a; 
+        else
+            return gcd((b - (b/a)*a), a); 
+    }
+    
+    
+    int mirrorReflection(int p, int q) {
+        
+        int t = gcd(q,p);
+        
+        cout<<t<<endl; 
+        
+        int np = p/t; 
+        int nq = q/t; 
+        
+        
+        // 012
+        
+        if(np&1 )
+        {
+            if(nq&1 ==1)
+            {
+                return 1; 
+            }
+            else
+            {
+                return 0; 
+            }
+        }
+        else
+        {
+            
+            if(nq&1)
+            {
+                return 2;
+            }
+            else
+            {
+                
+                return 0; 
+                
+                //should not happen;; 
+                
+            }
+        }
+        
+        
+        return 0; 
+        
+        
+    }
+};
