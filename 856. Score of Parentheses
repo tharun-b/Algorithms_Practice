@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int scoreOfParentheses(string S) {
+        
+        
+        int n = S.size();
+        if(n<2) return 0; 
+        
+        int tot = 0; 
+        int cur = 1; 
+        
+        for(int i =1; i< n; i++)
+        {
+            if(S[i] =='(')
+            {
+                cur++; 
+            }
+            else
+            {
+                cur--; 
+                if(S[i-1] =='(')
+                {
+                    tot+= (1<<cur);
+                }
+                
+            }
+        }
+        return (tot); 
+    }
+};
