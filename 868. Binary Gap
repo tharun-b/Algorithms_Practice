@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int binaryGap(int N) {
+        
+        int n = N;
+        int prev = 0; 
+        int c = 0; 
+        int mx = 0; 
+        
+        int t =0; 
+        while(n)
+        {
+            if(n&1)
+            {
+                t++; 
+                if(t>1)
+                {
+                    mx = max(mx,c-prev);
+                }
+                prev = c; 
+            }
+            n = n>>1; 
+            c++; 
+            
+        }
+        
+        return mx; 
+        
+    }
+};
