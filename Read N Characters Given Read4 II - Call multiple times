@@ -1,0 +1,84 @@
+/**
+ * The read4 API is defined in the parent class Reader4.
+ *     int read4(char *buf4);
+ */
+
+class Solution {
+    char m_local[4] = {0,0,0,0};
+    int  m_index = 0; 
+    int  m_end = 0; 
+
+    int readFromLocal(char **dbuf, int n)
+    {
+        if(n ==0) return 0; 
+        if(m_index == m_end) 
+        {
+            m_index = 0; 
+            m_end = 0; 
+            return 0; 
+        }
+        
+        int ct = 0; 
+        for(; m_index < min(4,m_end); )
+        {
+            (*dbuf)[0] = m_local[m_index] ;
+            m_local[m_index] = 0;
+
+            (*dbuf)++;
+            ct++;
+            m_index++;
+                
+            if(ct == n)
+            {
+                return ct;
+            }   
+            
+        };
+        
+        if(m_index == m_end) 
+        {
+            m_index = 0; 
+            m_end = 0; 
+        }
+            
+        return ct;
+    }
+    
+    int readFromAPI(char **dbuf, int n)
+    {
+        if(n ==0) return 0; 
+        int ct = 0;
+        while (int rd = read4(m_local))
+        {
+            m_index = 0; 
+            m_end = rd; 
+        
+            int toRead = min(4, n-ct);
+            int ac = readFromLocal(dbuf,toRead);
+            
+            ct += ac; 
+            
+            if(ct == n) return ct;    
+        }
+        
+        return ct;
+    }
+
+public:
+    /**
+     * @param buf Destination buffer
+     * @param n   Number of characters to read
+     * @return    The number of actual characters read
+     */
+    int read(char *buf, int n) {
+
+        
+        int ct = readFromLocal(&buf, n);
+        if(ct == n) return ct;
+        
+        int nct = readFromAPI(&buf, n-ct);
+        
+        return nct+ct; 
+       
+    }
+};
